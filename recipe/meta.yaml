@@ -10,7 +10,7 @@ source:
   sha256: 3dec890ec0f626115f6ee1513d6db467f0d6bbabe3309d591bdfdffee23dfaa2
 
 build:
-  number: 0
+  number: 1
   skip: true  # [not linux]
   script:
     - export CSP_USE_VCPKG=0  # [not win]
