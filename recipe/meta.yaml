@@ -46,6 +46,7 @@ requirements:
     - librdkafka
     - lz4-c
     - numpy
+    - openssl
     - pip
     - pyarrow =15
     - rapidjson
@@ -59,6 +60,7 @@ requirements:
     - python
     - {{ pin_compatible('numpy') }}
     - backports.zoneinfo  # [py<39]
+    - openssl
     - packaging
     - pandas <2.2
     - pyarrow =15
