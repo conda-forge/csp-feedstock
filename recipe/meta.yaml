@@ -11,7 +11,7 @@ source:
 
 build:
   number: 0
-  skip: true  # [not linux]
+  skip: true  # [not win]
   script:
     - export CSP_USE_VCPKG=0  # [not win]
     - {{ PYTHON }} -m pip install . -vv --no-deps  # [not win]
