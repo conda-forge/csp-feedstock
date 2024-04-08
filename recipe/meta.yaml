@@ -1,5 +1,5 @@
 {% set name = "csp" %}
-{% set version = "0.0.2" %}
+{% set version = "0.0.3" %}
 
 package:
   name: {{ name|lower }}
@@ -7,11 +7,11 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name [0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 3dec890ec0f626115f6ee1513d6db467f0d6bbabe3309d591bdfdffee23dfaa2
+  sha256: 53258f6359df7bb94e7a581f3c0aee7dd483d4dcf11708c6a2c8b74d1a18b30d
 
 build:
-  number: 1
-  skip: true  # [not linux]
+  number: 0
+  skip: true  # [win]
   script:
     - export CSP_USE_VCPKG=0  # [not win]
     - {{ PYTHON }} -m pip install . -vv --no-deps  # [not win]
@@ -40,23 +40,27 @@ requirements:
     - exprtk
     - gtest
     - libarrow =15
+    - libboost-headers
     - libparquet =15
     - libprotobuf
     - librdkafka
     - lz4-c
     - numpy
+    - openssl
     - pip
     - pyarrow =15
     - rapidjson
     - ruamel.yaml
     - scikit-build
     - setuptools >=69
+    - websocketpp
     - zlib
   run:
     - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.9") }}  # [osx and x86_64]
     - python
     - {{ pin_compatible('numpy') }}
     - backports.zoneinfo  # [py<39]
+    - openssl
     - packaging
     - pandas <2.2
     - pyarrow =15
