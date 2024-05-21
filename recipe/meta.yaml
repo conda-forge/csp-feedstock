@@ -10,7 +10,7 @@ source:
   sha256: 53258f6359df7bb94e7a581f3c0aee7dd483d4dcf11708c6a2c8b74d1a18b30d
 
 build:
-  number: 2
+  number: 3
   skip: true  # [win]
   # not compatible with python 3.12 yet
   skip: true  # [py>=312]
