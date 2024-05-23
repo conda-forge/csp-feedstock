@@ -39,9 +39,9 @@ requirements:
     - cyrus-sasl
     - exprtk
     - gtest
-    - libarrow =15
+    - libarrow =16
     - libboost-headers
-    - libparquet =15
+    - libparquet =16
     - libprotobuf
     - librdkafka
     - lz4-c
