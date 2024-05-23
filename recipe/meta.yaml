@@ -62,7 +62,7 @@ requirements:
     - openssl
     - packaging
     - pandas <2.2
-    - pyarrow =15
+    - pyarrow =16
     - psutil
     - pytz
     - rapidjson
