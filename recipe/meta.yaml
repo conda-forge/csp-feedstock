@@ -48,7 +48,7 @@ requirements:
     - numpy
     - openssl
     - pip
-    - pyarrow =15
+    - pyarrow =16
     - rapidjson
     - ruamel.yaml
     - scikit-build
