@@ -30,8 +30,8 @@ requirements:
     - {{ compiler('cxx') }}
     - cmake
     - make  # [not win]
-    - bison
-    - flex
+    - bison  # [not win]
+    - flex  # [not win]
   host:
     - python
     - brotli
