@@ -11,9 +11,6 @@ source:
 
 build:
   number: 0
-  skip: true  # [win]
-  # not compatible with python 3.12 yet
-  skip: true  # [py>=312]
   script:
     - export CSP_USE_VCPKG=0  # [not win]
     - {{ PYTHON }} -m pip install . -vv --no-deps  # [not win]
