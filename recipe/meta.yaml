@@ -19,7 +19,7 @@ build:
     - {{ PYTHON }} setup.py build_ext install --single-version-externally-managed  --record=record.txt  # [win]
   rpaths:
     - {{ SP_DIR }}/csp/lib  # [not win]
-    - "{{ SP_DIR }}\csp\lib"  # [win]
+    - "{{ SP_DIR }}\\csp\\lib"  # [win]
 
 requirements:
   build:
