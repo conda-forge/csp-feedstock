@@ -11,6 +11,9 @@ source:
 
 build:
   number: 0
+  # conda-build fails to find .pyd files co-located next to each other whereas the windows
+  # DLL loader does.
+  error_overlinking: false   # [win]
   script:
     - export CSP_USE_VCPKG=0  # [not win]
     - {{ PYTHON }} -m pip install . -vv --no-deps  # [not win]
