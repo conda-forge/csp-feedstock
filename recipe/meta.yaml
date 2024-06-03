@@ -1,5 +1,5 @@
 {% set name = "csp" %}
-{% set version = "0.0.3" %}
+{% set version = "0.0.4" %}
 
 package:
   name: {{ name|lower }}
@@ -7,21 +7,21 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name [0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 53258f6359df7bb94e7a581f3c0aee7dd483d4dcf11708c6a2c8b74d1a18b30d
+  sha256: f08c0ca0a116c4f3fd189453ff0cfd80a8179ee8d6f58e1da536b2d618b6e794
 
 build:
-  number: 3
-  skip: true  # [win]
-  # not compatible with python 3.12 yet
-  skip: true  # [py>=312]
+  number: 0
+  # conda-build fails to find .pyd files co-located next to each other whereas the windows
+  # DLL loader does.
+  error_overlinking: false   # [win]
   script:
     - export CSP_USE_VCPKG=0  # [not win]
     - {{ PYTHON }} -m pip install . -vv --no-deps  # [not win]
-    - set PSP_GENERATOR=Visual Studio 16 2019  # [win]
+    - set CSP_GENERATOR=Visual Studio 16 2019  # [win]
     - set CSP_USE_VCPKG=0  # [win]
     - {{ PYTHON }} setup.py build_ext install --single-version-externally-managed  --record=record.txt  # [win]
   rpaths:
-    - {{ SP_DIR }}/csp/lib
+    - {{ SP_DIR }}/csp/lib  # [not win]
 
 requirements:
   build:
@@ -33,8 +33,8 @@ requirements:
     - {{ compiler('cxx') }}
     - cmake
     - make  # [not win]
-    - bison
-    - flex
+    - bison  # [not win]
+    - flex  # [not win]
   host:
     - python
     - brotli
@@ -42,16 +42,16 @@ requirements:
     - cyrus-sasl
     - exprtk
     - gtest
-    - libarrow =15
+    - libarrow =16
     - libboost-headers
-    - libparquet =15
+    - libparquet =16
     - libprotobuf
     - librdkafka
     - lz4-c
     - numpy
     - openssl
     - pip
-    - pyarrow =15
+    - pyarrow =16
     - rapidjson
     - ruamel.yaml
     - scikit-build
@@ -65,7 +65,7 @@ requirements:
     - openssl
     - packaging
     - pandas <2.2
-    - pyarrow =15
+    - pyarrow =16
     - psutil
     - pytz
     - rapidjson
