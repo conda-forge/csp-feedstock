@@ -10,7 +10,7 @@ source:
   sha256: f08c0ca0a116c4f3fd189453ff0cfd80a8179ee8d6f58e1da536b2d618b6e794
 
 build:
-  number: 0
+  number: 1
   # conda-build fails to find .pyd files co-located next to each other whereas the windows
   # DLL loader does.
   error_overlinking: false   # [win]
@@ -60,7 +60,6 @@ requirements:
     - zlib
   run:
     - python
-    - {{ pin_compatible('numpy') }}
     - backports.zoneinfo  # [py<39]
     - openssl
     - packaging
