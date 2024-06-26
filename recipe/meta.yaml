@@ -1,5 +1,5 @@
 {% set name = "csp" %}
-{% set version = "0.0.4" %}
+{% set version = "0.0.5" %}
 
 package:
   name: {{ name|lower }}
@@ -7,13 +7,13 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name [0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: f08c0ca0a116c4f3fd189453ff0cfd80a8179ee8d6f58e1da536b2d618b6e794
+  sha256: afe4ea19455fd86bec7bda9fd3fb52a3c029468f8847db033823287e601af1ea
 
 build:
   number: 0
   # conda-build fails to find .pyd files co-located next to each other whereas the windows
   # DLL loader does.
-  error_overlinking: false   # [win]
+  error_overlinking: false  # [win]
   script:
     - export CSP_USE_VCPKG=0  # [not win]
     - {{ PYTHON }} -m pip install . -vv --no-deps  # [not win]
