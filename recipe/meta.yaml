@@ -17,10 +17,9 @@ build:
   script:
     # We can't cross-compile on csp due to https://github.com/Point72/csp/issues/264
     # So we "fake it" and use pregenerated files
-    - mkdir -p _skbuild/macosx-10.15-arm64-{3.8,3.9,3.11,3.12}/cmake-build/cpp/csp/engine/csp_autogen/  # [build_platform != target_platform]
-    - mkdir -p _skbuild/macosx-10.15-arm64-{3.8,3.9,3.11,3.12}/cmake-build/cpp/csp/adapters/websocket/csp_autogen/  # [build_platform != target_platform]
+    - mkdir -p _skbuild/macosx-10.15-arm64-{3.8,3.9,3.10,3.11,3.12}/cmake-build/cpp/csp/engine/csp_autogen/  # [build_platform != target_platform]
+    - mkdir -p _skbuild/macosx-10.15-arm64-{3.8,3.9,3.10,3.11,3.12}/cmake-build/cpp/csp/adapters/websocket/csp_autogen/  # [build_platform != target_platform]
     - find .
-    - find $RECIPE_DIR
     - cp $RECIPE_DIR/patches/engine/{autogen_types.cpp,autogen_types.h} _skbuild/macosx-10.15-arm64-3.8/cmake-build/cpp/csp/engine/csp_autogen/  # [build_platform != target_platform]
     - cp $RECIPE_DIR/patches/engine/{autogen_types.cpp,autogen_types.h} _skbuild/macosx-10.15-arm64-3.9/cmake-build/cpp/csp/engine/csp_autogen/  # [build_platform != target_platform]
     - cp $RECIPE_DIR/patches/engine/{autogen_types.cpp,autogen_types.h} _skbuild/macosx-10.15-arm64-3.10/cmake-build/cpp/csp/engine/csp_autogen/  # [build_platform != target_platform]
