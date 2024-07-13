@@ -30,7 +30,7 @@ build:
     - cp patches/adapters/websocket/* _skbuild/macosx-10.15-arm64-3.11/cmake-build/cpp/csp/engine/csp_autogen/  # [build_platform != target_platform]
     - cp patches/adapters/websocket/* _skbuild/macosx-10.15-arm64-3.12/cmake-build/cpp/csp/engine/csp_autogen/  # [build_platform != target_platform]
     - export CSP_USE_VCPKG=0  # [not win]
-    - {{ PYTHON }} -m pip install . -vv --no-deps  # [not win]
+    - {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation  # [not win]
     - set CSP_GENERATOR=Visual Studio 16 2019  # [win]
     - set CSP_USE_VCPKG=0  # [win]
     - {{ PYTHON }} setup.py build_ext install --single-version-externally-managed  --record=record.txt  # [win]
