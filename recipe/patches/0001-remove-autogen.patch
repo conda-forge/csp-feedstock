@@ -1,8 +1,8 @@
  + 0001-.patch                                                                                                                                        
 diff --git a/CMakeLists.txt b/CMakeLists.txt                                                                                                          
 index 572e4e0..fafe365 100644                                                                                                                         
---- a/CMakeLists.txt                                                                                                                                  
-+++ b/CMakeLists.txt                                                                                                                                  
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
 @@ -229,37 +229,11 @@ function(csp_autogen MODULE_NAME DEST_FILENAME HEADER_NAME_OUTVAR SOURCE_NAME_OU                                                
   ¦ ¦string( REPLACE "." "\/" MODULE_FILENAME ${MODULE_NAME} )
   ¦ ¦string( JOIN "." MODULE_FILENAME ${MODULE_FILENAME} "py" )
