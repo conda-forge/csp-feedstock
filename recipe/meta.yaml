@@ -8,6 +8,8 @@ package:
 source:
   url: https://pypi.io/packages/source/{{ name [0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: f08c0ca0a116c4f3fd189453ff0cfd80a8179ee8d6f58e1da536b2d618b6e794
+  patches:
+    - patches/0001-remove-autogen.patch  # [build_platform != target_platform]
 
 build:
   number: 0
