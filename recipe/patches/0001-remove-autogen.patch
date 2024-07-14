@@ -5,7 +5,6 @@ Subject: [PATCH] .
 
 ---
  CMakeLists.txt | 9 ---------
- vcpkg          | 2 +-
  2 files changed, 1 insertion(+), 10 deletions(-)
 
 diff --git a/CMakeLists.txt b/CMakeLists.txt
@@ -28,13 +27,6 @@ index d2df665..0260cb9 100644
      set(${SOURCE_NAME_OUTVAR} "${CMAKE_CURRENT_BINARY_DIR}/csp_autogen/${DEST_FILENAME}.cpp" PARENT_SCOPE )
      set(${HEADER_NAME_OUTVAR} "${CMAKE_CURRENT_BINARY_DIR}/csp_autogen/${DEST_FILENAME}.h" PARENT_SCOPE )
  endfunction()
-diff --git a/vcpkg b/vcpkg
-index 04b0cf2..1b5f734 160000
---- a/vcpkg
-+++ b/vcpkg
-@@ -1 +1 @@
--Subproject commit 04b0cf2b3fd1752d3c3db969cbc10ba0a4613cee
-+Subproject commit 1b5f7346612cd63910567df714d867f5b3fa8e3b
 -- 
 2.44.0
 
