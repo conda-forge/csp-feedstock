@@ -1,45 +1,40 @@
- + 0001-.patch                                                                                                                                        
-diff --git a/CMakeLists.txt b/CMakeLists.txt                                                                                                          
-index 572e4e0..fafe365 100644                                                                                                                         
+From 9b115eff51b48d3fc8c82ed55e3ebca2414a77d0 Mon Sep 17 00:00:00 2001
+From: Tim Paine <3105306+timkpaine@users.noreply.github.com>
+Date: Sat, 13 Jul 2024 23:49:54 -0400
+Subject: [PATCH] .
+
+---
+ CMakeLists.txt | 9 ---------
+ vcpkg          | 2 +-
+ 2 files changed, 1 insertion(+), 10 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index d2df665..0260cb9 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -229,37 +229,11 @@ function(csp_autogen MODULE_NAME DEST_FILENAME HEADER_NAME_OUTVAR SOURCE_NAME_OU                                                
-  ¦ ¦string( REPLACE "." "\/" MODULE_FILENAME ${MODULE_NAME} )
-  ¦ ¦string( JOIN "." MODULE_FILENAME ${MODULE_FILENAME} "py" )
-                                                  
--    add_custom_target( mkdir_autogen_${MODULE_NAME}
--        ALL COMMAND ${CMAKE_COMMAND} -E make_directory
--        "${CMAKE_CURRENT_BINARY_DIR}/csp_autogen" )
--
--    # VARARGS done by position
--    if(ARGV4)
--        set(CSP_AUTOGEN_EXTRA_ARGS "${ARGV4}")
--    else()
--        set(CSP_AUTOGEN_EXTRA_ARGS "")
--    endif()
--
-  ¦ ¦cmake_path(SET CSP_AUTOGEN_MODULE_PATH NORMALIZE "${CMAKE_SOURCE_DIR}/csp/build/csp_autogen.py")
-  ¦ ¦cmake_path(SET CSP_AUTOGEN_DESTINATION_FOLDER NORMALIZE "${CMAKE_CURRENT_BINARY_DIR}/csp_autogen")
-  ¦ ¦cmake_path(SET CSP_AUTOTGEN_CPP_OUT NORMALIZE "${CMAKE_CURRENT_BINARY_DIR}/csp_autogen/${DEST_FILENAME}.cpp")
-  ¦ ¦cmake_path(SET CSP_AUTOTGEN_H_OUT NORMALIZE "${CMAKE_CURRENT_BINARY_DIR}/csp_autogen/${DEST_FILENAME}.h")
-
--    if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
--        set(CSP_AUTOGEN_PYTHONPATH ${PROJECT_BINARY_DIR}/lib/${CMAKE_BUILD_TYPE};${CMAKE_SOURCE_DIR};%PYTHONPATH% )
--    else()
--        set(CSP_AUTOGEN_PYTHONPATH ${PROJECT_BINARY_DIR}/lib:${CMAKE_SOURCE_DIR}:$$PYTHONPATH )
--    endif()
--
+@@ -250,15 +250,6 @@ function(csp_autogen MODULE_NAME DEST_FILENAME HEADER_NAME_OUTVAR SOURCE_NAME_OU
+         set(CSP_AUTOGEN_PYTHONPATH ${PROJECT_BINARY_DIR}/lib:${CMAKE_SOURCE_DIR}:$$PYTHONPATH )
+     endif()
+ 
 -    add_custom_command(OUTPUT "${CSP_AUTOTGEN_CPP_OUT}" "${CSP_AUTOTGEN_H_OUT}"
--        COMMAND ${CMAKE_COMMAND} -E env "PYTHONPATH=${CSP_AUTOGEN_PYTHONPATH}" ${Python_EXECUTABLE} ${CSP_AUTOGEN_MODULE_PATH} -m ${MODULE_NAME} -d  ${CSP_AUTOGEN_DESTINATION_FOLDER} -o ${DEST_FILENAME} ${CSP_AUTOGEN_EXTRA_ARGS}
+-        COMMAND ${CMAKE_COMMAND} -E env "PYTHONPATH=${CSP_AUTOGEN_PYTHONPATH}" ${Python_EXECUTABLE} ${CSP_AUTOGEN_MODULE_PATH} -m ${MODULE_NAME} -d ${CSP_AUTOGEN_DESTINATION_FOLDER} -o ${DEST_FILENAME} ${CSP_AUTOGEN_EXTRA_ARGS}
 -        COMMENT "generating csp c++ types from module ${MODULE_NAME}"
--        DEPENDS mkdir_autogen_${MODULE_NAME}
+-        DEPENDS mkdir_autogen_${MODULE_NAME} 
 -                    ${CMAKE_SOURCE_DIR}/csp/build/csp_autogen.py
 -                    ${CMAKE_SOURCE_DIR}/${MODULE_FILENAME}
 -                    csptypesimpl
 -    )
 -
-  ¦ ¦set(${SOURCE_NAME_OUTVAR} "${CMAKE_CURRENT_BINARY_DIR}/csp_autogen/${DEST_FILENAME}.cpp" PARENT_SCOPE )
-  ¦ ¦set(${HEADER_NAME_OUTVAR} "${CMAKE_CURRENT_BINARY_DIR}/csp_autogen/${DEST_FILENAME}.h" PARENT_SCOPE )
+     set(${SOURCE_NAME_OUTVAR} "${CMAKE_CURRENT_BINARY_DIR}/csp_autogen/${DEST_FILENAME}.cpp" PARENT_SCOPE )
+     set(${HEADER_NAME_OUTVAR} "${CMAKE_CURRENT_BINARY_DIR}/csp_autogen/${DEST_FILENAME}.h" PARENT_SCOPE )
  endfunction()
---
+diff --git a/vcpkg b/vcpkg
+index 04b0cf2..1b5f734 160000
+--- a/vcpkg
++++ b/vcpkg
+@@ -1 +1 @@
+-Subproject commit 04b0cf2b3fd1752d3c3db969cbc10ba0a4613cee
++Subproject commit 1b5f7346612cd63910567df714d867f5b3fa8e3b
+-- 
 2.44.0
+
