@@ -8,6 +8,8 @@ package:
 source:
   url: https://pypi.io/packages/source/{{ name [0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: afe4ea19455fd86bec7bda9fd3fb52a3c029468f8847db033823287e601af1ea
+  patches:
+    - patches/0001-remove-autogen.patch  # [build_platform != target_platform]
 
 build:
   number: 0
@@ -15,8 +17,22 @@ build:
   # DLL loader does.
   error_overlinking: false  # [win]
   script:
+    # We can't cross-compile on csp due to https://github.com/Point72/csp/issues/264
+    # So we "fake it" and use pregenerated files
+    - mkdir -p $SRC_DIR/_skbuild/macosx-10.15-arm64-{3.8,3.9,3.10,3.11,3.12}/cmake-build/cpp/csp/engine/csp_autogen/  # [build_platform != target_platform]
+    - mkdir -p $SRC_DIR/_skbuild/macosx-10.15-arm64-{3.8,3.9,3.10,3.11,3.12}/cmake-build/cpp/csp/adapters/websocket/csp_autogen/  # [build_platform != target_platform]
+    - cp $RECIPE_DIR/patches/engine/{autogen_types.cpp,autogen_types.h} $SRC_DIR/_skbuild/macosx-10.15-arm64-3.8/cmake-build/cpp/csp/engine/csp_autogen/  # [build_platform != target_platform]
+    - cp $RECIPE_DIR/patches/engine/{autogen_types.cpp,autogen_types.h} $SRC_DIR/_skbuild/macosx-10.15-arm64-3.9/cmake-build/cpp/csp/engine/csp_autogen/  # [build_platform != target_platform]
+    - cp $RECIPE_DIR/patches/engine/{autogen_types.cpp,autogen_types.h} $SRC_DIR/_skbuild/macosx-10.15-arm64-3.10/cmake-build/cpp/csp/engine/csp_autogen/  # [build_platform != target_platform]
+    - cp $RECIPE_DIR/patches/engine/{autogen_types.cpp,autogen_types.h} $SRC_DIR/_skbuild/macosx-10.15-arm64-3.11/cmake-build/cpp/csp/engine/csp_autogen/  # [build_platform != target_platform]
+    - cp $RECIPE_DIR/patches/engine/{autogen_types.cpp,autogen_types.h} $SRC_DIR/_skbuild/macosx-10.15-arm64-3.12/cmake-build/cpp/csp/engine/csp_autogen/  # [build_platform != target_platform]
+    - cp $RECIPE_DIR/patches/adapters/websocket/{websocket_types.cpp,websocket_types.h} $SRC_DIR/_skbuild/macosx-10.15-arm64-3.8/cmake-build/cpp/csp/adapters/websocket/csp_autogen/  # [build_platform != target_platform]
+    - cp $RECIPE_DIR/patches/adapters/websocket/{websocket_types.cpp,websocket_types.h} $SRC_DIR/_skbuild/macosx-10.15-arm64-3.9/cmake-build/cpp/csp/adapters/websocket/csp_autogen/  # [build_platform != target_platform]
+    - cp $RECIPE_DIR/patches/adapters/websocket/{websocket_types.cpp,websocket_types.h} $SRC_DIR/_skbuild/macosx-10.15-arm64-3.10/cmake-build/cpp/csp/adapters/websocket/csp_autogen/  # [build_platform != target_platform]
+    - cp $RECIPE_DIR/patches/adapters/websocket/{websocket_types.cpp,websocket_types.h} $SRC_DIR/_skbuild/macosx-10.15-arm64-3.11/cmake-build/cpp/csp/adapters/websocket/csp_autogen/  # [build_platform != target_platform]
+    - cp $RECIPE_DIR/patches/adapters/websocket/{websocket_types.cpp,websocket_types.h} $SRC_DIR/_skbuild/macosx-10.15-arm64-3.12/cmake-build/cpp/csp/adapters/websocket/csp_autogen/  # [build_platform != target_platform]
     - export CSP_USE_VCPKG=0  # [not win]
-    - {{ PYTHON }} -m pip install . -vv --no-deps  # [not win]
+    - {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation  # [not win]
     - set CSP_GENERATOR=Visual Studio 16 2019  # [win]
     - set CSP_USE_VCPKG=0  # [win]
     - {{ PYTHON }} setup.py build_ext install --single-version-externally-managed  --record=record.txt  # [win]
@@ -25,6 +41,9 @@ build:
 
 requirements:
   build:
+    - python                                 # [build_platform != target_platform]
+    - cross-python_{{ target_platform }}     # [build_platform != target_platform]
+    - numpy                                  # [build_platform != target_platform]
     - python                                 # [build_platform != target_platform]
     - cross-python_{{ target_platform }}     # [build_platform != target_platform]
     - numpy                                  # [build_platform != target_platform]
