@@ -12,7 +12,7 @@ source:
     - patches/0001-remove-autogen.patch  # [build_platform != target_platform]
 
 build:
-  number: 1
+  number: 2
   # conda-build fails to find .pyd files co-located next to each other whereas the windows
   # DLL loader does.
   error_overlinking: false  # [win]
@@ -83,7 +83,7 @@ requirements:
     - backports.zoneinfo  # [py<39]
     - openssl
     - packaging
-    - pandas <2.2
+    - pandas
     - pyarrow =16
     - psutil
     - pytz
