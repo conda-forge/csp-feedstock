@@ -64,7 +64,7 @@ requirements:
     - libarrow =16
     - libboost-headers
     - libparquet =16
-    - libprotobuf <5
+    - libprotobuf =4.25.3
     - librdkafka
     - lz4-c
     - numpy
