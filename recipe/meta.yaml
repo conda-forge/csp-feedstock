@@ -74,7 +74,7 @@ requirements:
     - rapidjson
     - ruamel.yaml
     - scikit-build
-    - setuptools >=69
+    - setuptools >=69,<74
     - websocketpp
     - zlib
   run:
