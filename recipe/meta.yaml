@@ -12,7 +12,7 @@ source:
     - patches/0001-remove-autogen.patch  # [build_platform != target_platform]
 
 build:
-  number: 2
+  number: 3
   # conda-build fails to find .pyd files co-located next to each other whereas the windows
   # DLL loader does.
   error_overlinking: false  # [win]
@@ -74,7 +74,7 @@ requirements:
     - rapidjson
     - ruamel.yaml
     - scikit-build
-    - setuptools >=69
+    - setuptools >=69,<74
     - websocketpp
     - zlib
   run:
