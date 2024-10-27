@@ -19,9 +19,9 @@ cxx_compiler_version:
 docker_image:
 - quay.io/condaforge/linux-anvil-cos7-x86_64
 libboost_headers:
-- '1.84'
+- '1.86'
 libprotobuf:
-- 4.25.3
+- 5.27.5
 librdkafka:
 - '2.6'
 lz4_c:

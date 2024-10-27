@@ -9,9 +9,9 @@ channel_targets:
 cxx_compiler:
 - vs2019
 libboost_headers:
-- '1.84'
+- '1.86'
 libprotobuf:
-- 4.25.3
+- 5.27.5
 librdkafka:
 - '2.6'
 lz4_c:
