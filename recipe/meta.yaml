@@ -79,6 +79,7 @@ requirements:
     - zlib
   run:
     - python
+    - {{ pin_compatible('numpy') }}
     - backports.zoneinfo  # [py<39]
     - openssl
     - packaging
