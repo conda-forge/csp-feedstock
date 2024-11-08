@@ -1,0 +1,41 @@
+From c2ba24c983f9b1dc9485af19593b035e53678bc1 Mon Sep 17 00:00:00 2001
+From: Tim Paine <3105306+timkpaine@users.noreply.github.com>
+Date: Fri, 8 Nov 2024 15:34:20 -0500
+Subject: [PATCH] Support protobuf 5
+
+---
+ cpp/csp/adapters/utils/ProtobufHelper.cpp | 9 +++++----
+ 1 files changed, 5 insertions(+), 4 deletions(-)
+
+diff --git a/cpp/csp/adapters/utils/ProtobufHelper.cpp b/cpp/csp/adapters/utils/ProtobufHelper.cpp
+index f1e1600..7373a6c 100644
+--- a/cpp/csp/adapters/utils/ProtobufHelper.cpp
++++ b/cpp/csp/adapters/utils/ProtobufHelper.cpp
+@@ -3,6 +3,7 @@
+ #include <csp/core/Platform.h>
+ #include <csp/core/System.h>
+ #include <csp/engine/PartialSwitchCspType.h>
++#include <absl/strings/string_view.h>
+ 
+ namespace proto = google::protobuf;
+ 
+@@ -28,12 +29,12 @@ public:
+         return m_pool.FindFileByName( filename );
+     }
+ 
+-    void AddError( const std::string& filename, int line, int column,
+-                   const std::string& message ) override
++    void RecordError( absl::string_view filename, int line, int column,
++                      absl::string_view message ) override
+     {
+-        CSP_THROW( RuntimeException, "Failed to load proto schema " << filename << ":" << line << ":" << column << ": " << message );
++        CSP_THROW( RuntimeException, "Failed to load proto schema " << std::string(filename) << ":" << line << ":" << column << ": " << message );
+     }
+-    
++
+ private:
+     proto::DescriptorPoolDatabase                 m_wellKnownTypesDatabase;
+     proto::compiler::SourceTreeDescriptorDatabase m_database;
+-- 
+2.46.1
+
