@@ -1,19 +1,19 @@
 {% set name = "csp" %}
-{% set version = "0.0.5" %}
+{% set version = "0.0.6" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name [0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: afe4ea19455fd86bec7bda9fd3fb52a3c029468f8847db033823287e601af1ea
+  url: https://pypi.org/packages/source/{{ name [0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: e2d406353841f3b94020d196aedfe4de5d23dd3208542155ad1ebda290ba3075
   patches:
     - patches/0001-remove-autogen.patch  # [build_platform != target_platform]
     - patches/0002-protobuf5.patch
 
 build:
-  number: 5
+  number: 0
   # conda-build fails to find .pyd files co-located next to each other whereas the windows
   # DLL loader does.
   error_overlinking: false  # [win]
