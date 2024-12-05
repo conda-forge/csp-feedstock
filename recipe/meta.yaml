@@ -10,7 +10,6 @@ source:
   sha256: e2d406353841f3b94020d196aedfe4de5d23dd3208542155ad1ebda290ba3075
   patches:
     - patches/0001-remove-autogen.patch  # [build_platform != target_platform]
-    - patches/0002-protobuf5.patch
 
 build:
   number: 0
