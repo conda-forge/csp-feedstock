@@ -1,14 +1,14 @@
-From 0442d3ba535ab157873728e4750a487011c46a3a Mon Sep 17 00:00:00 2001
+From c4c8dbf2d916c02a90911aed1e9d69f12a643a22 Mon Sep 17 00:00:00 2001
 From: Tim Paine <3105306+timkpaine@users.noreply.github.com>
 Date: Sun, 8 Dec 2024 20:58:17 -0500
 Subject: [PATCH] local csp
 
 ---
- cpp/cmake/modules/FindCSP.cmake | 129 ++++++++------------------------
- 1 file changed, 31 insertions(+), 98 deletions(-)
+ cpp/cmake/modules/FindCSP.cmake | 135 ++++++++------------------------
+ 1 file changed, 34 insertions(+), 101 deletions(-)
 
 diff --git a/cpp/cmake/modules/FindCSP.cmake b/cpp/cmake/modules/FindCSP.cmake
-index 5b174a5..f955040 100644
+index 5b174a5..b659db0 100644
 --- a/cpp/cmake/modules/FindCSP.cmake
 +++ b/cpp/cmake/modules/FindCSP.cmake
 @@ -30,109 +30,42 @@
@@ -59,9 +59,9 @@ index 5b174a5..f955040 100644
 +set(__csp_version "0.0.0")
  
  # Now look for files
- find_file(CSP_AUTOGEN csp_autogen.py HINTS "${__csp_base_path}/build" NO_DEFAULT_PATH)
- find_path(CSP_INCLUDE_DIR csp/core/System.h HINTS "${__csp_include_path}" "${PYTHON_INCLUDE_PATH}" NO_DEFAULT_PATH)
- 
+-find_file(CSP_AUTOGEN csp_autogen.py HINTS "${__csp_base_path}/build" NO_DEFAULT_PATH)
+-find_path(CSP_INCLUDE_DIR csp/core/System.h HINTS "${__csp_include_path}" "${PYTHON_INCLUDE_PATH}" NO_DEFAULT_PATH)
+-
 -if(CSP_IN_SOURCE_BUILD)
 -  set(CSP_LIBS_DIR "${CMAKE_BINARY_DIR}/lib")
 -  set(CSP_LIBRARY "${CSP_LIBS_DIR}/_cspimpl.so")
@@ -125,6 +125,9 @@ index 5b174a5..f955040 100644
 -  find_library(CSP_WEBSOCKETADAPTER_LIBRARY NAMES _websocketadapterimpl.so PATHS "${__csp_lib_path}" NO_DEFAULT_PATH)
 -  find_library(CSP_WEBSOCKETADAPTER_STATIC_LIBRARY NAMES libcsp_websocket_client_adapter_static.a PATHS "${__csp_lib_path}" NO_DEFAULT_PATH)
 -endif()
++set(CSP_AUTOGEN "${CMAKE_SOURCE_DIR}/csp/build/csp_autogen.py")
++set(CSP_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/cpp")
++
 +set(CSP_LIBS_DIR "${CMAKE_BINARY_DIR}/lib")
 +set(CSP_LIBRARY "${CSP_LIBS_DIR}/_cspimpl.so")
 +set(CSP_CORE_LIBRARY "${CSP_LIBS_DIR}/libcsp_core_static.a")
