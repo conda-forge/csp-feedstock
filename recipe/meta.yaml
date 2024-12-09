@@ -44,10 +44,9 @@ requirements:
   build:
     - python                                 # [build_platform != target_platform]
     - cross-python_{{ target_platform }}     # [build_platform != target_platform]
-    - numpy                                  # [build_platform != target_platform]
+    - numpy <2                               # [build_platform != target_platform]
     - python                                 # [build_platform != target_platform]
     - cross-python_{{ target_platform }}     # [build_platform != target_platform]
-    - numpy                                  # [build_platform != target_platform]
     - {{ compiler('c') }}
     - {{ stdlib("c") }}
     - {{ compiler('cxx') }}
@@ -60,6 +59,7 @@ requirements:
     - brotli
     - cmake
     - cyrus-sasl
+    - deprecated
     - exprtk
     - gtest
     - libarrow =16
@@ -68,7 +68,7 @@ requirements:
     - libprotobuf
     - librdkafka
     - lz4-c
-    - numpy
+    - numpy <2
     - openssl
     - pip
     - pyarrow =16
@@ -76,6 +76,7 @@ requirements:
     - ruamel.yaml
     - scikit-build
     - setuptools >=69,<74
+    - typing-extensions
     - websocketpp
     - zlib
   run:
