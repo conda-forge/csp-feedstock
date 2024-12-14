@@ -13,7 +13,7 @@ source:
     - patches/0002-local-csp.patch
 
 build:
-  number: 1
+  number: 2
   # conda-build fails to find .pyd files co-located next to each other whereas the windows
   # DLL loader does.
   error_overlinking: false  # [win]
@@ -39,6 +39,8 @@ build:
     - {{ PYTHON }} setup.py build_ext install --single-version-externally-managed  --record=record.txt  # [win]
   rpaths:
     - {{ SP_DIR }}/csp/lib  # [not win]
+  run_exports:
+    - {{ pin_subpackage('csp', max_pin='x.x.x') }}
 
 requirements:
   build:
