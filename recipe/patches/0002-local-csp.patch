@@ -1,20 +1,21 @@
-From c4c8dbf2d916c02a90911aed1e9d69f12a643a22 Mon Sep 17 00:00:00 2001
+From 4f3901c68bea57cf7573f6fa79f75751f9e9f81b Mon Sep 17 00:00:00 2001
 From: Tim Paine <3105306+timkpaine@users.noreply.github.com>
-Date: Sun, 8 Dec 2024 20:58:17 -0500
+Date: Sat, 22 Feb 2025 14:49:00 -0500
 Subject: [PATCH] local csp
 
 ---
- cpp/cmake/modules/FindCSP.cmake | 135 ++++++++------------------------
- 1 file changed, 34 insertions(+), 101 deletions(-)
+ cpp/cmake/modules/FindCSP.cmake | 150 ++++++++------------------------
+ 1 file changed, 34 insertions(+), 116 deletions(-)
 
 diff --git a/cpp/cmake/modules/FindCSP.cmake b/cpp/cmake/modules/FindCSP.cmake
-index 5b174a5..b659db0 100644
+index 5715827..4452c92 100644
 --- a/cpp/cmake/modules/FindCSP.cmake
 +++ b/cpp/cmake/modules/FindCSP.cmake
-@@ -30,109 +30,42 @@
+@@ -30,122 +30,40 @@
+ 
  cmake_minimum_required(VERSION 3.7.2)
  
- 
+-
 -if(EXISTS "${CMAKE_SOURCE_DIR}/csp/__init__.py")
 -  set(CSP_IN_SOURCE_BUILD ON)
 -  set(__csp_base_path "${CMAKE_SOURCE_DIR}/csp")
@@ -50,15 +51,8 @@ index 5b174a5..b659db0 100644
 -            "from __future__ import print_function;import csp;print(csp.__version__, end='')"
 -    OUTPUT_VARIABLE __csp_version)
 -endif()
-+set(CSP_IN_SOURCE_BUILD ON)
-+set(__csp_base_path "${CMAKE_SOURCE_DIR}/csp")
-+set(__csp_include_path "${CMAKE_SOURCE_DIR}/cpp")
-+set(__csp_lib_path "${CMAKE_SOURCE_DIR}/")
-+set(__csp_base_path "${CMAKE_SOURCE_DIR}/csp")
-+set(__csp_base_path "${CMAKE_SOURCE_DIR}/csp")
-+set(__csp_version "0.0.0")
- 
- # Now look for files
+-
+-# Now look for files
 -find_file(CSP_AUTOGEN csp_autogen.py HINTS "${__csp_base_path}/build" NO_DEFAULT_PATH)
 -find_path(CSP_INCLUDE_DIR csp/core/System.h HINTS "${__csp_include_path}" "${PYTHON_INCLUDE_PATH}" NO_DEFAULT_PATH)
 -
@@ -80,7 +74,13 @@ index 5b174a5..b659db0 100644
 -  set(CSP_STATS_LIBRARY "${CSP_LIBS_DIR}/_cspstatsimpl.so")
 -  set(CSP_STATS_STATIC_LIBRARY "${CSP_LIBS_DIR}/libstatsimpl_static.a")
 -  set(CSP_NPSTATS_LIBRARY "${CSP_LIBS_DIR}/_cspnpstatsimpl.so")
--  set(CSP_ADAPTER_UTILS_LIBRARY "${CSP_LIBS_DIR}/libcsp_adapter_utils_static.a")
+-  find_library(CSP_ADAPTER_UTILS_LIBRARY
+-          NAMES
+-          csp_adapter_utils_static
+-          csp_adapter_utils
+-          PATHS ${CSP_LIBS_DIR}
+-          NO_DEFAULT_PATH
+-  )
 -  set(CSP_KAFKAADAPTER_LIBRARY "${CSP_LIBS_DIR}/_kafkaadapterimpl.so")
 -  set(CSP_KAFKAADAPTER_STATIC_LIBRARY "${CSP_LIBS_DIR}/libcsp_kafka_adapter_static.a")
 -  set(CSP_PARQUETADAPTER_LIBRARY "${CSP_LIBS_DIR}/_parquetadapterimpl.so")
@@ -114,7 +114,13 @@ index 5b174a5..b659db0 100644
 -
 -  find_library(CSP_NPSTATS_LIBRARY NAMES _cspnpstatsimpl.so PATHS "${__csp_lib_path}" NO_DEFAULT_PATH)
 -
--  find_library(CSP_ADAPTER_UTILS_LIBRARY NAMES libcsp_adapter_utils_static.a PATHS "${__csp_lib_path}" NO_DEFAULT_PATH)
+-  find_library(CSP_ADAPTER_UTILS_LIBRARY
+-          NAMES
+-          csp_adapter_utils_static
+-          csp_adapter_utils
+-          PATHS "${__csp_lib_path}"
+-          NO_DEFAULT_PATH
+-  )
 -
 -  find_library(CSP_KAFKAADAPTER_LIBRARY NAMES _kafkaadapterimpl.so PATHS "${__csp_lib_path}" NO_DEFAULT_PATH)
 -  find_library(CSP_KAFKAADAPTER_STATIC_LIBRARY NAMES libcsp_kafka_adapter_static.a PATHS "${__csp_lib_path}" NO_DEFAULT_PATH)
@@ -127,7 +133,13 @@ index 5b174a5..b659db0 100644
 -endif()
 +set(CSP_AUTOGEN "${CMAKE_SOURCE_DIR}/csp/build/csp_autogen.py")
 +set(CSP_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/cpp")
-+
++set(CSP_IN_SOURCE_BUILD ON)
++set(__csp_base_path "${CMAKE_SOURCE_DIR}/csp")
++set(__csp_include_path "${CMAKE_SOURCE_DIR}/cpp")
++set(__csp_lib_path "${CMAKE_SOURCE_DIR}/")
++set(__csp_base_path "${CMAKE_SOURCE_DIR}/csp")
++set(__csp_base_path "${CMAKE_SOURCE_DIR}/csp")
++set(__csp_version "0.0.0")
 +set(CSP_LIBS_DIR "${CMAKE_BINARY_DIR}/lib")
 +set(CSP_LIBRARY "${CSP_LIBS_DIR}/_cspimpl.so")
 +set(CSP_CORE_LIBRARY "${CSP_LIBS_DIR}/libcsp_core_static.a")
@@ -145,7 +157,8 @@ index 5b174a5..b659db0 100644
 +set(CSP_STATS_LIBRARY "${CSP_LIBS_DIR}/_cspstatsimpl.so")
 +set(CSP_STATS_STATIC_LIBRARY "${CSP_LIBS_DIR}/libstatsimpl_static.a")
 +set(CSP_NPSTATS_LIBRARY "${CSP_LIBS_DIR}/_cspnpstatsimpl.so")
-+set(CSP_ADAPTER_UTILS_LIBRARY "${CSP_LIBS_DIR}/libcsp_adapter_utils_static.a")
++set(CSP_ADAPTER_UTILS_LIBRARY "${CSP_LIBS_DIR}/libcsp_adapter_utils.so")
++
 +set(CSP_KAFKAADAPTER_LIBRARY "${CSP_LIBS_DIR}/_kafkaadapterimpl.so")
 +set(CSP_KAFKAADAPTER_STATIC_LIBRARY "${CSP_LIBS_DIR}/libcsp_kafka_adapter_static.a")
 +set(CSP_PARQUETADAPTER_LIBRARY "${CSP_LIBS_DIR}/_parquetadapterimpl.so")
@@ -156,5 +169,5 @@ index 5b174a5..b659db0 100644
  if(CSP_INCLUDE_DIR AND CSP_LIBS_DIR AND CSP_AUTOGEN)
    set(CSP_FOUND 1 CACHE INTERNAL "CSP found")
 -- 
-2.47.0
+2.47.1
 

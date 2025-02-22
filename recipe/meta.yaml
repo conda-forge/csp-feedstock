@@ -1,5 +1,5 @@
 {% set name = "csp" %}
-{% set version = "0.0.8" %}
+{% set version = "0.0.9" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.org/packages/source/{{ name [0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 18bb007c35d31649f2843f73412fefaef7d22575f7fa53f5f8e0c391bff29bc0
+  sha256: ad9fd3b1d88bf7516cd4e5090124f16c6558a9129466bb2363bd9c828ebc428a
   patches:
     - patches/0001-remove-autogen.patch  # [build_platform != target_platform]
     - patches/0002-local-csp.patch
@@ -37,6 +37,8 @@ build:
     - set CSP_GENERATOR=Visual Studio 16 2019  # [win]
     - set CSP_USE_VCPKG=0  # [win]
     - {{ PYTHON }} setup.py build_ext install --single-version-externally-managed  --record=record.txt  # [win]
+    # Cleanup after, need to tweak pyproject
+    - rm -rf $PREFIX/cpp $PREFIX/CMakeLists.txt $PREFIX/LICENSE $PREFIX/NOTICE $PREFIX/pyproject.toml $PREFIX/README.md $PREFIX/setup.py $PREFIX/vcpkg.json  # [not win]
   rpaths:
     - {{ SP_DIR }}/csp/lib  # [not win]
   run_exports:
