@@ -37,6 +37,8 @@ build:
     - set CSP_GENERATOR=Visual Studio 16 2019  # [win]
     - set CSP_USE_VCPKG=0  # [win]
     - {{ PYTHON }} setup.py build_ext install --single-version-externally-managed  --record=record.txt  # [win]
+    # Cleanup after, need to tweak pyproject
+    - rm -rf $PREFIX/cpp $PREFIX/CMakeLists.txt $PREFIX/LICENSE $PREFIX/NOTICE $PREFIX/pyproject.toml $PREFIX/README.md $PREFIX/setup.py $PREFIX/vcpkg.json  # [not win]
   rpaths:
     - {{ SP_DIR }}/csp/lib  # [not win]
   run_exports:
