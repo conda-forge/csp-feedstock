@@ -131,6 +131,8 @@ index 5715827..ab295e8 100644
 -  find_library(CSP_WEBSOCKETADAPTER_LIBRARY NAMES _websocketadapterimpl.so PATHS "${__csp_lib_path}" NO_DEFAULT_PATH)
 -  find_library(CSP_WEBSOCKETADAPTER_STATIC_LIBRARY NAMES libcsp_websocket_client_adapter_static.a PATHS "${__csp_lib_path}" NO_DEFAULT_PATH)
 -endif()
++set(CSP_AUTOGEN "${CMAKE_SOURCE_DIR}/csp/build/csp_autogen.py")
++set(CSP_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/cpp")
 +set(CSP_IN_SOURCE_BUILD ON)
 +set(__csp_base_path "${CMAKE_SOURCE_DIR}/csp")
 +set(__csp_include_path "${CMAKE_SOURCE_DIR}/cpp")
