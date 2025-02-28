@@ -75,6 +75,7 @@ requirements:
     - openssl
     - pip
     - pyarrow =16
+    - pydantic >=2
     - rapidjson
     - ruamel.yaml
     - scikit-build
@@ -92,6 +93,7 @@ requirements:
     - pandas
     - pyarrow =16
     - psutil
+    - pydantic >=2
     - pytz
     - rapidjson
     - ruamel.yaml
