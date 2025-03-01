@@ -20,8 +20,6 @@ cxx_compiler_version:
 - '18'
 libboost_headers:
 - '1.86'
-libprotobuf:
-- 5.28.3
 librdkafka:
 - '2.6'
 lz4_c:
