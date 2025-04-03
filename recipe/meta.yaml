@@ -1,5 +1,5 @@
 {% set name = "csp" %}
-{% set version = "0.8.0" %}
+{% set version = "0.9.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.org/packages/source/{{ name [0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 05840c7777d64f9130bbcaad359a578e6bb3749d780bb699f3c6f2939cba047c
+  sha256: ad964d834b5e8713556a1afe60c58b364d949fddc215a2972b8e787ad8ab0c96
   patches:
     - patches/0001-remove-autogen.patch  # [build_platform != target_platform]
     - patches/0002-local-csp.patch
@@ -66,15 +66,15 @@ requirements:
     - deprecated
     - exprtk
     - gtest
-    - libarrow =16
+    - libarrow <20
     - libboost-headers
-    - libparquet =16
+    - libparquet <20
     - librdkafka
     - lz4-c
     - numpy <2
     - openssl
     - pip
-    - pyarrow =16
+    - pyarrow >=15,<20
     - pydantic >=2
     - rapidjson
     - ruamel.yaml
@@ -91,7 +91,7 @@ requirements:
     - openssl
     - packaging
     - pandas
-    - pyarrow =16
+    - pyarrow >=15,<20
     - psutil
     - pydantic >=2
     - pytz
