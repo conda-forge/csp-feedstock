@@ -54,14 +54,14 @@ requirements:
     - {{ compiler('c') }}
     - {{ stdlib("c") }}
     - {{ compiler('cxx') }}
-    - cmake
+    - cmake <4
     - make  # [not win]
     - bison  # [not win]
     - flex  # [not win]
   host:
     - python
     - brotli
-    - cmake
+    - cmake <4
     - cyrus-sasl
     - deprecated
     - exprtk
