@@ -91,6 +91,7 @@ requirements:
     - openssl
     - packaging
     - pandas
+    - pandas <2.3 # [py<310]
     - pyarrow >=15,<20
     - psutil
     - pydantic >=2
