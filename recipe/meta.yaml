@@ -42,7 +42,10 @@ build:
   rpaths:
     - {{ SP_DIR }}/csp/lib  # [not win]
   run_exports:
-    - {{ pin_subpackage('csp', max_pin='x.x.x') }}
+    - {{ pin_subpackage('csp', max_pin='x.x') }}
+  ignore_run_exports:
+    - numpy
+  
 
 requirements:
   build:
