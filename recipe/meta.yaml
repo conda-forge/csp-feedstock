@@ -45,7 +45,6 @@ build:
     - {{ pin_subpackage('csp', max_pin='x.x') }}
   ignore_run_exports:
     - numpy
-  
 
 requirements:
   build:
