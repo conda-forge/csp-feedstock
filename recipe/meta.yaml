@@ -13,7 +13,9 @@ source:
     - patches/0002-local-csp.patch
 
 build:
-  number: 0
+  number: 1
+  # NOTE: windows-2019 required for build, no longer supported
+  skip: true  # [win]
   # conda-build fails to find .pyd files co-located next to each other whereas the windows
   # DLL loader does.
   error_overlinking: false  # [win]
@@ -42,7 +44,9 @@ build:
   rpaths:
     - {{ SP_DIR }}/csp/lib  # [not win]
   run_exports:
-    - {{ pin_subpackage('csp', max_pin='x.x.x') }}
+    - {{ pin_subpackage('csp', max_pin='x.x') }}
+  ignore_run_exports:
+    - numpy
 
 requirements:
   build:
