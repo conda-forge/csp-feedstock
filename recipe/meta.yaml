@@ -1,5 +1,5 @@
 {% set name = "csp" %}
-{% set version = "0.10.1" %}
+{% set version = "0.11.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,13 +7,13 @@ package:
 
 source:
   url: https://pypi.org/packages/source/{{ name [0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 7cbb6660504bd45a57366475d934d96556c419934262e93911f1a82dba2c6d59
+  sha256: 3ac642add8a38d06029ee98c18f7446aa92b6b87607a20d3dbd5e4ab768bbaec
   patches:
     - patches/0001-remove-autogen.patch  # [build_platform != target_platform]
     - patches/0002-local-csp.patch
 
 build:
-  number: 1
+  number: 0
   # NOTE: windows-2019 required for build, no longer supported
   skip: true  # [win]
   # conda-build fails to find .pyd files co-located next to each other whereas the windows
