@@ -68,15 +68,15 @@ requirements:
     - deprecated
     - exprtk
     - gtest
-    - libarrow <20
+    - libarrow >=19,<20
     - libboost-headers
-    - libparquet <20
+    - libparquet >=19,<20
     - librdkafka
     - lz4-c
     - numpy <2
     - openssl
     - pip
-    - pyarrow >=15,<20
+    - pyarrow >=19,<20
     - pydantic >=2
     - rapidjson
     - ruamel.yaml
@@ -94,7 +94,7 @@ requirements:
     - packaging
     - pandas
     - pandas <2.3  # [py<310]
-    - pyarrow >=15,<20
+    - pyarrow
     - psutil
     - pydantic >=2
     - pytz
