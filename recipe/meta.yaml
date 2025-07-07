@@ -68,15 +68,15 @@ requirements:
     - deprecated
     - exprtk
     - gtest
-    - libarrow >=19.0.1,<20
+    - libarrow <20
     - libboost-headers
-    - libparquet >=19.0.1,<20
+    - libparquet <20
     - librdkafka
     - lz4-c
     - numpy <2
     - openssl
     - pip
-    - pyarrow >=19.0.1,<20
+    - pyarrow <20
     - pydantic >=2
     - rapidjson
     - ruamel.yaml
