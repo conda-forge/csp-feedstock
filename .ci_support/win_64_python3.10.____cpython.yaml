@@ -9,7 +9,7 @@ channel_targets:
 cxx_compiler:
 - vs2022
 libboost_headers:
-- '1.86'
+- '1.88'
 librdkafka:
 - '2.6'
 lz4_c:
