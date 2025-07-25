@@ -273,6 +273,7 @@ Feedstock Maintainers
 
 * [@AdamGlustein](https://github.com/AdamGlustein/)
 * [@alexddobkin](https://github.com/alexddobkin/)
+* [@arhamchopra](https://github.com/arhamchopra/)
 * [@ptomecek](https://github.com/ptomecek/)
 * [@robambalu](https://github.com/robambalu/)
 * [@timkpaine](https://github.com/timkpaine/)
