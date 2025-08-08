@@ -1,5 +1,5 @@
 {% set name = "csp" %}
-{% set version = "0.11.1" %}
+{% set version = "0.11.2" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.org/packages/source/{{ name [0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 6ae52243b32cce28e59e4079ed1b652caa41e40d8273ebcddb38f07916cb8c4d
+  sha256: 019489e15577ee43b92a69a725ea407f76ea1e738239d70755d990e3c03d2628
   patches:
     - patches/0001-remove-autogen.patch  # [build_platform != target_platform]
     - patches/0002-local-csp.patch
