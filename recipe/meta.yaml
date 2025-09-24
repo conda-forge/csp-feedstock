@@ -14,7 +14,7 @@ source:
     - patches/0003-arrow-20-21.patch
 
 build:
-  number: 1
+  number: 2
   skip: true  # [py>312]
   # conda-build fails to find .pyd files co-located next to each other whereas the windows
   # DLL loader does.
@@ -70,15 +70,15 @@ requirements:
     - deprecated
     - exprtk
     - gtest
-    - libarrow <20
+    - libarrow
     - libboost-headers
-    - libparquet <20
+    - libparquet
     - librdkafka
     - lz4-c
     - numpy <2
     - openssl
     - pip
-    - pyarrow <20
+    - pyarrow
     - pydantic >=2
     - rapidjson
     - ruamel.yaml
