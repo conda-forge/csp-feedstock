@@ -1,5 +1,5 @@
 {% set name = "csp" %}
-{% set version = "0.9.0" %}
+{% set version = "0.11.3" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.org/packages/source/{{ name [0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: ad964d834b5e8713556a1afe60c58b364d949fddc215a2972b8e787ad8ab0c96
+  sha256: 02580883054ac438107cb17df817b97b92283f61f5c610ea8959eb6c5542b131
   patches:
     - patches/0001-remove-autogen.patch  # [build_platform != target_platform]
     - patches/0002-local-csp.patch
@@ -15,6 +15,7 @@ source:
 
 build:
   number: 1
+  skip: true  # [py>312]
   # conda-build fails to find .pyd files co-located next to each other whereas the windows
   # DLL loader does.
   error_overlinking: false  # [win]
@@ -35,7 +36,7 @@ build:
     - cp $RECIPE_DIR/patches/adapters/websocket/{websocket_types.cpp,websocket_types.h} $SRC_DIR/_skbuild/macosx-10.15-arm64-3.12/cmake-build/cpp/csp/adapters/websocket/csp_autogen/  # [build_platform != target_platform]
     - export CSP_USE_VCPKG=0  # [not win]
     - {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation  # [not win]
-    - set CSP_GENERATOR=Visual Studio 16 2019  # [win]
+    - set CSP_GENERATOR=Visual Studio 17 2022  # [win]
     - set CSP_USE_VCPKG=0  # [win]
     - {{ PYTHON }} setup.py build_ext install --single-version-externally-managed  --record=record.txt  # [win]
     # Cleanup after, need to tweak pyproject
@@ -43,7 +44,9 @@ build:
   rpaths:
     - {{ SP_DIR }}/csp/lib  # [not win]
   run_exports:
-    - {{ pin_subpackage('csp', max_pin='x.x.x') }}
+    - {{ pin_subpackage('csp', max_pin='x.x') }}
+  ignore_run_exports:
+    - numpy
 
 requirements:
   build:
@@ -75,7 +78,7 @@ requirements:
     - numpy <2
     - openssl
     - pip
-    - pyarrow >=15,<20
+    - pyarrow <20
     - pydantic >=2
     - rapidjson
     - ruamel.yaml
@@ -92,7 +95,8 @@ requirements:
     - openssl
     - packaging
     - pandas
-    - pyarrow >=15,<20
+    - pandas <2.3  # [py<310]
+    - pyarrow
     - psutil
     - pydantic >=2
     - pytz
@@ -119,6 +123,7 @@ about:
 
 extra:
   recipe-maintainers:
+    - arhamchopra
     - ptomecek
     - alexddobkin
     - robambalu
