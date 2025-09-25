@@ -1,0 +1,89 @@
+From 7be694d1cd218ae2b6857d07e4d62a0eaf84bbdf Mon Sep 17 00:00:00 2001
+From: Tim Paine <3105306+timkpaine@users.noreply.github.com>
+Date: Wed, 24 Sep 2025 19:29:24 -0400
+Subject: [PATCH] arrow-20-21
+
+---
+ cpp/csp/adapters/parquet/ParquetFileReaderWrapper.cpp | 7 +++++++
+ cpp/csp/adapters/parquet/ParquetFileWriterWrapper.cpp | 6 +++++-
+ pyproject.toml                                        | 4 ++--
+ 3 files changed, 14 insertions(+), 3 deletions(-)
+
+diff --git a/cpp/csp/adapters/parquet/ParquetFileReaderWrapper.cpp b/cpp/csp/adapters/parquet/ParquetFileReaderWrapper.cpp
+index 3e29926..9f8f112 100644
+--- a/cpp/csp/adapters/parquet/ParquetFileReaderWrapper.cpp
++++ b/cpp/csp/adapters/parquet/ParquetFileReaderWrapper.cpp
+@@ -2,6 +2,7 @@
+ #include <csp/adapters/parquet/ParquetStatusUtils.h>
+ #include <parquet/arrow/reader.h>
+ #include <arrow/io/file.h>
++#include <arrow/util/config.h>
+
+ namespace csp::adapters::parquet
+ {
+@@ -16,9 +17,15 @@ void ParquetFileReaderWrapper::open( const std::string &fileName )
+
+     try
+     {
++#if ARROW_VERSION_MAJOR == 20 || ARROW_VERSION_MAJOR == 21
++        auto res = ::parquet::arrow::OpenFile(m_inputFile, arrow::default_memory_pool());
++        STATUS_OK_OR_THROW_RUNTIME(res.status(), "Failed to open parquet file " << fileName );
++        m_fileReader = res.MoveValueUnsafe();
++#else
+         STATUS_OK_OR_THROW_RUNTIME(
+                 ::parquet::arrow::OpenFile( m_inputFile, arrow::default_memory_pool(), &m_fileReader ),
+                 "Failed to open parquet file " << fileName );
++#endif
+     }
+     catch( ... )
+     {
+diff --git a/cpp/csp/adapters/parquet/ParquetFileWriterWrapper.cpp b/cpp/csp/adapters/parquet/ParquetFileWriterWrapper.cpp
+index 40d9e0d..42586e1 100644
+--- a/cpp/csp/adapters/parquet/ParquetFileWriterWrapper.cpp
++++ b/cpp/csp/adapters/parquet/ParquetFileWriterWrapper.cpp
+@@ -2,6 +2,7 @@
+ #include <csp/adapters/parquet/ParquetStatusUtils.h>
+ #include <arrow/io/file.h>
+ #include <arrow/table.h>
++#include <arrow/util/config.h>
+ #include <parquet/arrow/writer.h>
+
+ namespace csp::adapters::parquet
+@@ -16,8 +17,11 @@ void ParquetFileWriterWrapper::openImpl( const std::string &fileName, const std:
+
+     ::parquet::WriterProperties::Builder builder;
+     builder.compression( resolveCompression( compression ));
++#if ARROW_VERSION_MAJOR == 20 || ARROW_VERSION_MAJOR == 21
++    builder.version(::parquet::ParquetVersion::PARQUET_2_6 );
++#else
+     builder.version(::parquet::ParquetVersion::PARQUET_2_0 );
+-
++#endif
+     ::parquet::ArrowWriterProperties::Builder arrowBuilder;
+     arrowBuilder.store_schema();
+
+diff --git a/pyproject.toml b/pyproject.toml
+index e500c11..6893417 100644
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -3,7 +3,7 @@ requires = [
+     "cmake<3.27",
+     "deprecated",  # Because used in csp.impl.struct, which is used in autogen
+     "oldest-supported-numpy",
+-    "pyarrow>=15,<20",
++    "pyarrow>=15",
+     "ruamel.yaml",
+     "scikit-build",
+     "setuptools>=69,<74",
+@@ -26,7 +26,7 @@ dependencies = [
+     "pandas<2.3; python_version<'3.10'",
+     "pandas; python_version>='3.10'",
+     "psutil",
+-    "pyarrow>=15,<20",
++    "pyarrow>=15",
+     "pydantic>=2",
+     "pytz",
+     "ruamel.yaml",
+--
+2.43.0
+

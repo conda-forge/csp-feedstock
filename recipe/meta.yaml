@@ -11,9 +11,10 @@ source:
   patches:
     - patches/0001-remove-autogen.patch  # [build_platform != target_platform]
     - patches/0002-local-csp.patch
+    - patches/0003-arrow-20-21.patch
 
 build:
-  number: 2
+  number: 3
   skip: true  # [py>312]
   # conda-build fails to find .pyd files co-located next to each other whereas the windows
   # DLL loader does.
@@ -57,27 +58,27 @@ requirements:
     - {{ compiler('c') }}
     - {{ stdlib("c") }}
     - {{ compiler('cxx') }}
-    - cmake
+    - cmake <4
     - make  # [not win]
     - bison  # [not win]
     - flex  # [not win]
   host:
     - python
     - brotli
-    - cmake
+    - cmake <4
     - cyrus-sasl
     - deprecated
     - exprtk
     - gtest
-    - libarrow <20
+    - libarrow
     - libboost-headers
-    - libparquet <20
+    - libparquet
     - librdkafka
     - lz4-c
     - numpy <2
     - openssl
     - pip
-    - pyarrow <20
+    - pyarrow
     - pydantic >=2
     - rapidjson
     - ruamel.yaml
@@ -106,10 +107,10 @@ requirements:
 test:
   requires:
     - pip
-  commands:
-    - pip check
   imports:
     - csp
+  commands:
+    - pip check
 
 about:
   home: http://github.com/point72/csp
