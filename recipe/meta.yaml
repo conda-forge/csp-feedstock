@@ -109,8 +109,8 @@ test:
     - pip
   imports:
     - csp
-  # commands:
-  #   - pip check
+  commands:
+    - pip check
 
 about:
   home: http://github.com/point72/csp
