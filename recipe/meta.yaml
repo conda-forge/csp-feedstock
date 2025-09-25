@@ -13,7 +13,7 @@ source:
     - patches/0002-local-csp.patch
 
 build:
-  number: 1
+  number: 2
   skip: true  # [py>312]
   # conda-build fails to find .pyd files co-located next to each other whereas the windows
   # DLL loader does.
@@ -88,9 +88,9 @@ requirements:
     - zlib
   run:
     - python
-    - {{ pin_compatible('numpy') }}
     - backports.zoneinfo  # [py<39]
     - deprecated
+    - numpy <2
     - openssl
     - packaging
     - pandas
