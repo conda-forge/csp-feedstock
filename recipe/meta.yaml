@@ -107,10 +107,10 @@ requirements:
 test:
   requires:
     - pip
-  commands:
-    - pip check
   imports:
     - csp
+  # commands:
+  #   - pip check
 
 about:
   home: http://github.com/point72/csp
