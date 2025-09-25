@@ -89,7 +89,7 @@ requirements:
     - zlib
   run:
     - python
-    - {{ pin_compatible('numpy') }}
+    - numpy <2
     - backports.zoneinfo  # [py<39]
     - deprecated
     - openssl
