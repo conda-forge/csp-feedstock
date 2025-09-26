@@ -12,9 +12,10 @@ source:
     - patches/0001-remove-autogen.patch  # [build_platform != target_platform]
     - patches/0002-local-csp.patch
     - patches/0003-arrow-20-21.patch
+    - patches/0004-enable-numpy-2.patch
 
 build:
-  number: 3
+  number: 4
   skip: true  # [py>312]
   # conda-build fails to find .pyd files co-located next to each other whereas the windows
   # DLL loader does.
@@ -52,7 +53,7 @@ requirements:
   build:
     - python                                 # [build_platform != target_platform]
     - cross-python_{{ target_platform }}     # [build_platform != target_platform]
-    - numpy <2                               # [build_platform != target_platform]
+    - numpy                               # [build_platform != target_platform]
     - python                                 # [build_platform != target_platform]
     - cross-python_{{ target_platform }}     # [build_platform != target_platform]
     - {{ compiler('c') }}
@@ -75,7 +76,7 @@ requirements:
     - libparquet
     - librdkafka
     - lz4-c
-    - numpy <2
+    - numpy
     - openssl
     - pip
     - pyarrow
