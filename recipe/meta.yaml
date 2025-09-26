@@ -92,7 +92,7 @@ requirements:
     - python
     - backports.zoneinfo  # [py<39]
     - deprecated
-    - numpy <2
+    - numpy
     - openssl
     - packaging
     - pandas
