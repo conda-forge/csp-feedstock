@@ -15,7 +15,7 @@ source:
     - patches/0004-enable-numpy-2.patch
 
 build:
-  number: 4
+  number: 5
   skip: true  # [py>312]
   # conda-build fails to find .pyd files co-located next to each other whereas the windows
   # DLL loader does.
