@@ -1,6 +1,6 @@
-From 4f3901c68bea57cf7573f6fa79f75751f9e9f81b Mon Sep 17 00:00:00 2001
+From 497440a0a9f2a5b3cb2fd4fccf1864170bb69a45 Mon Sep 17 00:00:00 2001
 From: Tim Paine <3105306+timkpaine@users.noreply.github.com>
-Date: Sat, 22 Feb 2025 14:49:00 -0500
+Date: Sat, 11 Oct 2025 12:03:24 -0400
 Subject: [PATCH] local csp
 
 ---
@@ -12,9 +12,9 @@ index 5715827..4452c92 100644
 --- a/cpp/cmake/modules/FindCSP.cmake
 +++ b/cpp/cmake/modules/FindCSP.cmake
 @@ -30,122 +30,40 @@
- 
+
  cmake_minimum_required(VERSION 3.7.2)
- 
+
 -
 -if(EXISTS "${CMAKE_SOURCE_DIR}/csp/__init__.py")
 -  set(CSP_IN_SOURCE_BUILD ON)
@@ -165,9 +165,9 @@ index 5715827..4452c92 100644
 +set(CSP_PARQUETADAPTER_STATIC_LIBRARY "${CSP_LIBS_DIR}/libcsp_parquet_adapter_static.a")
 +set(CSP_WEBSOCKETADAPTER_LIBRARY "${CSP_LIBS_DIR}/_websocketadapterimpl.so")
 +set(CSP_WEBSOCKETADAPTER_STATIC_LIBRARY "${CSP_LIBS_DIR}/libcsp_websocket_client_adapter_static.a")
- 
+
  if(CSP_INCLUDE_DIR AND CSP_LIBS_DIR AND CSP_AUTOGEN)
    set(CSP_FOUND 1 CACHE INTERNAL "CSP found")
--- 
-2.47.1
+--
+2.51.0
 
