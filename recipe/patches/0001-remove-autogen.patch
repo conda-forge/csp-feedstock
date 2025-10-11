@@ -1,42 +1,39 @@
-From 63bd1a7f5bdafcdf43e3286a29ce5eca15bbd620 Mon Sep 17 00:00:00 2001
+From c87c6816e0df2ee05ebec333600fbf8f1566aa24 Mon Sep 17 00:00:00 2001
 From: Tim Paine <3105306+timkpaine@users.noreply.github.com>
-Date: Sun, 8 Dec 2024 20:56:29 -0500
-Subject: [PATCH] remove-autogen
+Date: Sat, 11 Oct 2025 13:55:43 -0400
+Subject: [PATCH] remove autogen
 
 ---
- cpp/cmake/modules/Findcsp_autogen.cmake | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+ cpp/cmake/modules/Findcsp_autogen.cmake | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
 diff --git a/cpp/cmake/modules/Findcsp_autogen.cmake b/cpp/cmake/modules/Findcsp_autogen.cmake
-index 3e8284b..3d05ed0 100644
+index c44a5c1..34e1e5e 100644
 --- a/cpp/cmake/modules/Findcsp_autogen.cmake
 +++ b/cpp/cmake/modules/Findcsp_autogen.cmake
-@@ -26,15 +26,15 @@ function(csp_autogen MODULE_NAME DEST_FILENAME HEADER_NAME_OUTVAR SOURCE_NAME_OU
-         set(CSP_AUTOGEN_PYTHONPATH ${PROJECT_BINARY_DIR}/lib:${CMAKE_SOURCE_DIR}:$$PYTHONPATH)
+@@ -50,14 +50,14 @@ function(csp_autogen MODULE_NAME DEST_FILENAME HEADER_NAME_OUTVAR SOURCE_NAME_OU
+         set(ASAN_PRELOAD_CMD "")
      endif()
  
 -    add_custom_command(OUTPUT "${CSP_AUTOGEN_CPP_OUT}" "${CSP_AUTOGEN_H_OUT}"
--        COMMAND ${CMAKE_COMMAND} -E env "PYTHONPATH=${CSP_AUTOGEN_PYTHONPATH}" ${Python_EXECUTABLE} ${CSP_AUTOGEN_MODULE_PATH} -m ${MODULE_NAME} -d ${CSP_AUTOGEN_DESTINATION_FOLDER} -o ${DEST_FILENAME} ${CSP_AUTOGEN_EXTRA_ARGS}
+-        COMMAND ${CMAKE_COMMAND} -E env "PYTHONPATH=${CSP_AUTOGEN_PYTHONPATH}" ${ASAN_PRELOAD_CMD} ${Python_EXECUTABLE} ${CSP_AUTOGEN_MODULE_PATH} -m ${MODULE_NAME} -d ${CSP_AUTOGEN_DESTINATION_FOLDER} -o ${DEST_FILENAME} ${CSP_AUTOGEN_EXTRA_ARGS}
 -        COMMENT "generating csp c++ types from module ${MODULE_NAME}"
 -        DEPENDS mkdir_autogen_${MODULE_TARGETNAME} 
 -                    ${CSP_AUTOGEN_MODULE_PATH}
 -                    ${CMAKE_SOURCE_DIR}/${MODULE_FILENAME}
 -                    ${CSP_TYPES_LIBRARY_FOR_AUTOGEN}
 -    )
-+    #add_custom_command(OUTPUT "${CSP_AUTOGEN_CPP_OUT}" "${CSP_AUTOGEN_H_OUT}"
-+    #    COMMAND ${CMAKE_COMMAND} -E env "PYTHONPATH=${CSP_AUTOGEN_PYTHONPATH}" ${Python_EXECUTABLE} ${CSP_AUTOGEN_MODULE_PATH} -m ${MODULE_NAME} -d ${CSP_AUTOGEN_DESTINATION_FOLDER} -o ${DEST_FILENAME} ${CSP_AUTOGEN_EXTRA_ARGS}
-+    #    COMMENT "generating csp c++ types from module ${MODULE_NAME}"
-+    #    DEPENDS mkdir_autogen_${MODULE_TARGETNAME} 
-+    #                ${CSP_AUTOGEN_MODULE_PATH}
-+    #                ${CMAKE_SOURCE_DIR}/${MODULE_FILENAME}
-+    #                ${CSP_TYPES_LIBRARY_FOR_AUTOGEN}
-+    #)
++    # add_custom_command(OUTPUT "${CSP_AUTOGEN_CPP_OUT}" "${CSP_AUTOGEN_H_OUT}"
++    #     COMMAND ${CMAKE_COMMAND} -E env "PYTHONPATH=${CSP_AUTOGEN_PYTHONPATH}" ${ASAN_PRELOAD_CMD} ${Python_EXECUTABLE} ${CSP_AUTOGEN_MODULE_PATH} -m ${MODULE_NAME} -d ${CSP_AUTOGEN_DESTINATION_FOLDER} -o ${DEST_FILENAME} ${CSP_AUTOGEN_EXTRA_ARGS}
++    #     COMMENT "generating csp c++ types from module ${MODULE_NAME}"
++    #     DEPENDS mkdir_autogen_${MODULE_TARGETNAME} 
++    #                 ${CSP_AUTOGEN_MODULE_PATH}
++    #                 ${CMAKE_SOURCE_DIR}/${MODULE_FILENAME}
++    #                 ${CSP_TYPES_LIBRARY_FOR_AUTOGEN}
++    # )
  
      set(${SOURCE_NAME_OUTVAR} "${CSP_AUTOGEN_CPP_OUT}" PARENT_SCOPE)
      set(${HEADER_NAME_OUTVAR} "${CSP_AUTOGEN_H_OUT}" PARENT_SCOPE)
--endfunction()
-\ No newline at end of file
-+endfunction()
 -- 
-2.47.0
+2.51.0
 
