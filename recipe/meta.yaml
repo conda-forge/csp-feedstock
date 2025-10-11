@@ -11,8 +11,6 @@ source:
   patches:
     - patches/0001-remove-autogen.patch  # [build_platform != target_platform]
     - patches/0002-local-csp.patch
-    - patches/0003-arrow-20-21.patch
-    - patches/0004-enable-numpy-2.patch
 
 build:
   number: 0
