@@ -8,15 +8,6 @@ jobs:
     vmImage: macOS-15
   strategy:
     matrix:
-      osx_64_libarrow18.1python3.10.____cpython:
-        CONFIG: osx_64_libarrow18.1python3.10.____cpython
-        UPLOAD_PACKAGES: 'True'
-      osx_64_libarrow18.1python3.11.____cpython:
-        CONFIG: osx_64_libarrow18.1python3.11.____cpython
-        UPLOAD_PACKAGES: 'True'
-      osx_64_libarrow18.1python3.12.____cpython:
-        CONFIG: osx_64_libarrow18.1python3.12.____cpython
-        UPLOAD_PACKAGES: 'True'
       osx_64_libarrow19.0python3.10.____cpython:
         CONFIG: osx_64_libarrow19.0python3.10.____cpython
         UPLOAD_PACKAGES: 'True'
@@ -44,14 +35,14 @@ jobs:
       osx_64_libarrow21.0python3.12.____cpython:
         CONFIG: osx_64_libarrow21.0python3.12.____cpython
         UPLOAD_PACKAGES: 'True'
-      osx_arm64_libarrow18.1python3.10.____cpython:
-        CONFIG: osx_arm64_libarrow18.1python3.10.____cpython
+      osx_64_libarrow22.0python3.10.____cpython:
+        CONFIG: osx_64_libarrow22.0python3.10.____cpython
         UPLOAD_PACKAGES: 'True'
-      osx_arm64_libarrow18.1python3.11.____cpython:
-        CONFIG: osx_arm64_libarrow18.1python3.11.____cpython
+      osx_64_libarrow22.0python3.11.____cpython:
+        CONFIG: osx_64_libarrow22.0python3.11.____cpython
         UPLOAD_PACKAGES: 'True'
-      osx_arm64_libarrow18.1python3.12.____cpython:
-        CONFIG: osx_arm64_libarrow18.1python3.12.____cpython
+      osx_64_libarrow22.0python3.12.____cpython:
+        CONFIG: osx_64_libarrow22.0python3.12.____cpython
         UPLOAD_PACKAGES: 'True'
       osx_arm64_libarrow19.0python3.10.____cpython:
         CONFIG: osx_arm64_libarrow19.0python3.10.____cpython
@@ -79,6 +70,15 @@ jobs:
         UPLOAD_PACKAGES: 'True'
       osx_arm64_libarrow21.0python3.12.____cpython:
         CONFIG: osx_arm64_libarrow21.0python3.12.____cpython
+        UPLOAD_PACKAGES: 'True'
+      osx_arm64_libarrow22.0python3.10.____cpython:
+        CONFIG: osx_arm64_libarrow22.0python3.10.____cpython
+        UPLOAD_PACKAGES: 'True'
+      osx_arm64_libarrow22.0python3.11.____cpython:
+        CONFIG: osx_arm64_libarrow22.0python3.11.____cpython
+        UPLOAD_PACKAGES: 'True'
+      osx_arm64_libarrow22.0python3.12.____cpython:
+        CONFIG: osx_arm64_libarrow22.0python3.12.____cpython
         UPLOAD_PACKAGES: 'True'
   timeoutInMinutes: 360
   variables: {}
