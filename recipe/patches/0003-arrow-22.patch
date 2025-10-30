@@ -1,0 +1,39 @@
+From a2e9ec302c33f608e13f726886826caadf8cbd12 Mon Sep 17 00:00:00 2001
+From: Tim Paine <3105306+timkpaine@users.noreply.github.com>
+Date: Thu, 30 Oct 2025 14:45:21 -0400
+Subject: [PATCH] arrow 22
+
+---
+ cpp/csp/adapters/parquet/ParquetFileReaderWrapper.cpp | 2 +-
+ cpp/csp/adapters/parquet/ParquetFileWriterWrapper.cpp | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/cpp/csp/adapters/parquet/ParquetFileReaderWrapper.cpp b/cpp/csp/adapters/parquet/ParquetFileReaderWrapper.cpp
+index 9f8f112..7be785c 100644
+--- a/cpp/csp/adapters/parquet/ParquetFileReaderWrapper.cpp
++++ b/cpp/csp/adapters/parquet/ParquetFileReaderWrapper.cpp
+@@ -17,7 +17,7 @@ void ParquetFileReaderWrapper::open( const std::string &fileName )
+ 
+     try
+     {
+-#if ARROW_VERSION_MAJOR == 20 || ARROW_VERSION_MAJOR == 21
++#if ARROW_VERSION_MAJOR >= 20
+         auto res = ::parquet::arrow::OpenFile(m_inputFile, arrow::default_memory_pool());
+         STATUS_OK_OR_THROW_RUNTIME(res.status(), "Failed to open parquet file " << fileName );
+         m_fileReader = res.MoveValueUnsafe();
+diff --git a/cpp/csp/adapters/parquet/ParquetFileWriterWrapper.cpp b/cpp/csp/adapters/parquet/ParquetFileWriterWrapper.cpp
+index 42586e1..633ac49 100644
+--- a/cpp/csp/adapters/parquet/ParquetFileWriterWrapper.cpp
++++ b/cpp/csp/adapters/parquet/ParquetFileWriterWrapper.cpp
+@@ -17,7 +17,7 @@ void ParquetFileWriterWrapper::openImpl( const std::string &fileName, const std:
+ 
+     ::parquet::WriterProperties::Builder builder;
+     builder.compression( resolveCompression( compression ));
+-#if ARROW_VERSION_MAJOR == 20 || ARROW_VERSION_MAJOR == 21
++#if ARROW_VERSION_MAJOR >= 20
+     builder.version(::parquet::ParquetVersion::PARQUET_2_6 );
+ #else
+     builder.version(::parquet::ParquetVersion::PARQUET_2_0 );
+-- 
+2.51.0
+
