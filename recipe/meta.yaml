@@ -14,7 +14,7 @@ source:
     - patches/0003-arrow-22.patch
 
 build:
-  number: 2
+  number: 3
   skip: true  # [py>312]
   # conda-build fails to find .pyd files co-located next to each other whereas the windows
   # DLL loader does.
