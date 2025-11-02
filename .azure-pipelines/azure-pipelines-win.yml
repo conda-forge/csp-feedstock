@@ -17,6 +17,9 @@ jobs:
       win_64_libarrow19.0python3.12.____cpython:
         CONFIG: win_64_libarrow19.0python3.12.____cpython
         UPLOAD_PACKAGES: 'True'
+      win_64_libarrow19.0python3.13.____cp313:
+        CONFIG: win_64_libarrow19.0python3.13.____cp313
+        UPLOAD_PACKAGES: 'True'
       win_64_libarrow20.0python3.10.____cpython:
         CONFIG: win_64_libarrow20.0python3.10.____cpython
         UPLOAD_PACKAGES: 'True'
@@ -25,6 +28,9 @@ jobs:
         UPLOAD_PACKAGES: 'True'
       win_64_libarrow20.0python3.12.____cpython:
         CONFIG: win_64_libarrow20.0python3.12.____cpython
+        UPLOAD_PACKAGES: 'True'
+      win_64_libarrow20.0python3.13.____cp313:
+        CONFIG: win_64_libarrow20.0python3.13.____cp313
         UPLOAD_PACKAGES: 'True'
       win_64_libarrow21.0python3.10.____cpython:
         CONFIG: win_64_libarrow21.0python3.10.____cpython
@@ -35,6 +41,9 @@ jobs:
       win_64_libarrow21.0python3.12.____cpython:
         CONFIG: win_64_libarrow21.0python3.12.____cpython
         UPLOAD_PACKAGES: 'True'
+      win_64_libarrow21.0python3.13.____cp313:
+        CONFIG: win_64_libarrow21.0python3.13.____cp313
+        UPLOAD_PACKAGES: 'True'
       win_64_libarrow22.0python3.10.____cpython:
         CONFIG: win_64_libarrow22.0python3.10.____cpython
         UPLOAD_PACKAGES: 'True'
@@ -44,6 +53,10 @@ jobs:
       win_64_libarrow22.0python3.12.____cpython:
         CONFIG: win_64_libarrow22.0python3.12.____cpython
         UPLOAD_PACKAGES: 'True'
+      win_64_libarrow22.0python3.13.____cp313:
+        CONFIG: win_64_libarrow22.0python3.13.____cp313
+        UPLOAD_PACKAGES: 'True'
+    maxParallel: 12
   timeoutInMinutes: 360
   variables:
     CONDA_BLD_PATH: D:\\bld\\
