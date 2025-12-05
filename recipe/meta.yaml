@@ -1,5 +1,5 @@
 {% set name = "csp" %}
-{% set version = "0.12.0" %}
+{% set version = "0.13.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,14 +7,14 @@ package:
 
 source:
   url: https://pypi.org/packages/source/{{ name [0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: c54cd70c3892fb76989b2a9c4f4c2d28b7232c0ec97231bb957f4e74b1a94ab2
+  sha256: 9e0cc0e87c6e30cc6eec8a6539c9381f63c4324470640ffe21dd121577ae21f3
   patches:
     - patches/0001-remove-autogen.patch  # [build_platform != target_platform]
     - patches/0002-local-csp.patch
     - patches/0003-arrow-22.patch
 
 build:
-  number: 3
+  number: 0
   skip: true  # [py>313]
   # conda-build fails to find .pyd files co-located next to each other whereas the windows
   # DLL loader does.
