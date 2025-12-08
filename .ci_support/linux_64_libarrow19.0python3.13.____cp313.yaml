@@ -23,7 +23,7 @@ libarrow:
 libboost_headers:
 - '1.88'
 librdkafka:
-- '2.11'
+- '2.12'
 lz4_c:
 - '1.10'
 numpy:
