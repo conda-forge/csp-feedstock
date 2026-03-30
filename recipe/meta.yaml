@@ -1,5 +1,5 @@
 {% set name = "csp" %}
-{% set version = "0.14.0" %}
+{% set version = "0.15.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.org/packages/source/{{ name [0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 569cf198a24c26539b3c8746a644a710868413d509c051b51492c62b5da79d13
+  sha256: f9dffd59943afdaf32bd4a41bc473e388399faecbf9e4bba724157d3acf8ecf2
   patches:
     - patches/0001-remove-autogen.patch  # [build_platform != target_platform]
     - patches/0002-local-csp.patch
@@ -67,10 +67,10 @@ requirements:
     - deprecated
     - exprtk
     - gtest
-    - libarrow
+    - libarrow <23  # temporary pin for migration
     - libboost-headers
     - libparquet
-    - librdkafka
+    - librdkafka <2.13  # temporary pin for migration
     - lz4-c
     - numpy
     - openssl
