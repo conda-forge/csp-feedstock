@@ -67,10 +67,10 @@ requirements:
     - deprecated
     - exprtk
     - gtest
-    - libarrow <23  # temporary pin for migration
+    - libarrow
     - libboost-headers
     - libparquet
-    - librdkafka <2.13  # temporary pin for migration
+    - librdkafka
     - lz4-c
     - numpy
     - openssl
