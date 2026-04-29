@@ -1,6 +1,6 @@
-From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
-From: Tim Paine <3105306+timkpaine@users.noreply.github.com>
-Date: Wed, 30 Apr 2026 00:00:00 -0400
+From 1d638c4d871b4472eb801b93fc26d077d33a32c5 Mon Sep 17 00:00:00 2001
+From: t <t@t>
+Date: Thu, 30 Apr 2026 07:52:46 +0900
 Subject: [PATCH] allow pyarrow 24
 
 ---
@@ -8,7 +8,7 @@ Subject: [PATCH] allow pyarrow 24
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/pyproject.toml b/pyproject.toml
-index 0000000..0000001 100644
+index 5aea1f6..c815bd9 100644
 --- a/pyproject.toml
 +++ b/pyproject.toml
 @@ -5,7 +5,7 @@ requires = [
@@ -30,5 +30,5 @@ index 0000000..0000001 100644
      "pytz",
      "ruamel.yaml",
 -- 
-2.40.0
+2.50.1 (Apple Git-155)
 
