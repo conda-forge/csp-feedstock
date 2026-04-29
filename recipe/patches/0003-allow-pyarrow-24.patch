@@ -1,0 +1,34 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Tim Paine <3105306+timkpaine@users.noreply.github.com>
+Date: Wed, 30 Apr 2026 00:00:00 -0400
+Subject: [PATCH] allow pyarrow 24
+
+---
+ pyproject.toml | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/pyproject.toml b/pyproject.toml
+index 0000000..0000001 100644
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -5,7 +5,7 @@ requires = [
+     # oldest numpy 2 we can
+     "numpy>=2,<2.1; python_version < '3.13'",
+     "numpy>=2,<2.2",
+-    "pyarrow>=15,<24",
++    "pyarrow>=15,<25",
+     "ruamel.yaml",
+     "scikit-build",
+     "setuptools>=69,<74",
+@@ -27,7 +27,7 @@ dependencies = [
+     "packaging",
+     "pandas",
+     "psutil",
+-    "pyarrow>=15,<24",
++    "pyarrow>=15,<25",
+     "pydantic>=2",
+     "pytz",
+     "ruamel.yaml",
+-- 
+2.40.0
+
