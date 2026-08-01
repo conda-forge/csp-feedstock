@@ -11,10 +11,10 @@ diff --git a/pyproject.toml b/pyproject.toml
 index 5aea1f6..c815bd9 100644
 --- a/pyproject.toml
 +++ b/pyproject.toml
-@@ -5,7 +5,7 @@ requires = [
-     # oldest numpy 2 we can
+@@ -6,7 +6,7 @@ requires = [
      "numpy>=2,<2.1; python_version < '3.13'",
-     "numpy>=2,<2.2",
+     "numpy>=2,<2.2; python_version < '3.14'",
+     "numpy>=2,<2.4; python_version < '3.15'",
 -    "pyarrow>=15,<24",
 +    "pyarrow>=15,<26",
      "ruamel.yaml",
@@ -31,4 +31,3 @@ index 5aea1f6..c815bd9 100644
      "ruamel.yaml",
 -- 
 2.50.1 (Apple Git-155)
-
