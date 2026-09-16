@@ -1,0 +1,163 @@
+schema_version: 1
+
+context:
+  name: csp
+  version: "0.18.0"
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://pypi.org/packages/source/${{ name [0] }}/${{ name }}/${{ name }}-${{ version }}.tar.gz
+  sha256: e82d01c2cc697b3d881c2ef3727f1e85fab2eaab9e039457d0bd6ab31302f932
+  patches:
+    - if: build_platform != target_platform
+      then: patches/0001-remove-autogen.patch
+    - patches/0002-local-csp.patch
+    - patches/0003-allow-pyarrow-24.patch
+
+build:
+  # conda-build fails to find .pyd files co-located next to each other whereas the windows
+  # DLL loader does.
+  number: 2
+  skip: match(python, ">3.14")
+  script:
+    # We can't cross-compile on csp due to https://github.com/Point72/csp/issues/264
+    # So we "fake it" and use pregenerated files
+    - if: build_platform != target_platform
+      then: mkdir -p $SRC_DIR/_skbuild/macosx-10.15-arm64-{3.10,3.11,3.12,3.13,3.14}/cmake-build/cpp/csp/engine/csp_autogen/
+    - if: build_platform != target_platform
+      then: mkdir -p $SRC_DIR/_skbuild/macosx-10.15-arm64-{3.10,3.11,3.12,3.13,3.14}/cmake-build/cpp/csp/adapters/websocket/csp_autogen/
+    - if: build_platform != target_platform
+      then: cp $RECIPE_DIR/patches/engine/{autogen_types.cpp,autogen_types.h} $SRC_DIR/_skbuild/macosx-10.15-arm64-3.10/cmake-build/cpp/csp/engine/csp_autogen/
+    - if: build_platform != target_platform
+      then: cp $RECIPE_DIR/patches/engine/{autogen_types.cpp,autogen_types.h} $SRC_DIR/_skbuild/macosx-10.15-arm64-3.11/cmake-build/cpp/csp/engine/csp_autogen/
+    - if: build_platform != target_platform
+      then: cp $RECIPE_DIR/patches/engine/{autogen_types.cpp,autogen_types.h} $SRC_DIR/_skbuild/macosx-10.15-arm64-3.12/cmake-build/cpp/csp/engine/csp_autogen/
+    - if: build_platform != target_platform
+      then: cp $RECIPE_DIR/patches/engine/{autogen_types.cpp,autogen_types.h} $SRC_DIR/_skbuild/macosx-10.15-arm64-3.13/cmake-build/cpp/csp/engine/csp_autogen/
+    - if: build_platform != target_platform
+      then: cp $RECIPE_DIR/patches/engine/{autogen_types.cpp,autogen_types.h} $SRC_DIR/_skbuild/macosx-10.15-arm64-3.14/cmake-build/cpp/csp/engine/csp_autogen/
+    - if: build_platform != target_platform
+      then: cp $RECIPE_DIR/patches/adapters/websocket/{websocket_types.cpp,websocket_types.h} $SRC_DIR/_skbuild/macosx-10.15-arm64-3.10/cmake-build/cpp/csp/adapters/websocket/csp_autogen/
+    - if: build_platform != target_platform
+      then: cp $RECIPE_DIR/patches/adapters/websocket/{websocket_types.cpp,websocket_types.h} $SRC_DIR/_skbuild/macosx-10.15-arm64-3.11/cmake-build/cpp/csp/adapters/websocket/csp_autogen/
+    - if: build_platform != target_platform
+      then: cp $RECIPE_DIR/patches/adapters/websocket/{websocket_types.cpp,websocket_types.h} $SRC_DIR/_skbuild/macosx-10.15-arm64-3.12/cmake-build/cpp/csp/adapters/websocket/csp_autogen/
+    - if: build_platform != target_platform
+      then: cp $RECIPE_DIR/patches/adapters/websocket/{websocket_types.cpp,websocket_types.h} $SRC_DIR/_skbuild/macosx-10.15-arm64-3.13/cmake-build/cpp/csp/adapters/websocket/csp_autogen/
+    - if: build_platform != target_platform
+      then: cp $RECIPE_DIR/patches/adapters/websocket/{websocket_types.cpp,websocket_types.h} $SRC_DIR/_skbuild/macosx-10.15-arm64-3.14/cmake-build/cpp/csp/adapters/websocket/csp_autogen/
+    - if: not win
+      then: export CSP_USE_VCPKG=0
+    - if: not win
+      then: ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+    - if: win
+      then: set CSP_GENERATOR=Visual Studio 17 2022
+    - if: win
+      then: set CSP_USE_VCPKG=0
+    - if: win
+      then: ${{ PYTHON }} setup.py build_ext install --single-version-externally-managed  --record=record.txt
+    # Cleanup after, need to tweak pyproject
+    - if: not win
+      then: rm -rf $PREFIX/cpp $PREFIX/CMakeLists.txt $PREFIX/LICENSE $PREFIX/NOTICE $PREFIX/pyproject.toml $PREFIX/README.md $PREFIX/setup.py $PREFIX/vcpkg.json
+  dynamic_linking:
+    rpaths:
+      - if: not win
+        then: ${{ SP_DIR }}/csp/lib
+  error_overlinking: ${{ true if win }}
+
+requirements:
+  build:
+    - if: build_platform != target_platform
+      then: python
+    - if: build_platform != target_platform
+      then: cross-python_${{ target_platform }}
+    - if: build_platform != target_platform
+      then: numpy
+    - if: build_platform != target_platform
+      then: python
+    - if: build_platform != target_platform
+      then: cross-python_${{ target_platform }}
+    - ${{ compiler('c') }}
+    - ${{ stdlib("c") }}
+    - ${{ compiler('cxx') }}
+    - cmake <4
+    - if: not win
+      then: make
+    - if: not win
+      then: bison
+    - if: not win
+      then: flex
+  host:
+    - python
+    - brotli
+    - cmake <4
+    - cyrus-sasl
+    - deprecated
+    - exprtk
+    - gtest
+    - libarrow
+    - libboost-headers
+    - libparquet
+    - librdkafka
+    - lz4-c
+    - numpy
+    - openssl
+    - pip
+    - pyarrow
+    - pydantic >=2
+    - rapidjson
+    - ruamel.yaml
+    - scikit-build
+    - setuptools >=69,<74
+    - typing-extensions
+    - websocketpp
+    - zlib
+  run:
+    - python
+    - if: match(python, "<3.9")
+      then: backports.zoneinfo
+    - deprecated
+    - numpy
+    - openssl
+    - packaging
+    - pandas
+    - if: match(python, "<3.10")
+      then: pandas <2.3
+    - pyarrow
+    - psutil
+    - pydantic >=2
+    - pytz
+    - rapidjson
+    - ruamel.yaml
+    - sqlalchemy
+  run_exports:
+    - ${{ pin_subpackage('csp', upper_bound='x.x') }}
+  ignore_run_exports:
+    by_name:
+      - numpy
+
+tests:
+  - python:
+      imports:
+        - csp
+      pip_check: true
+
+about:
+  license: Apache-2.0
+  license_file: LICENSE
+  summary: csp is a high performance reactive stream processing library, written in C++ and Python
+  description: csp is a high performance reactive stream processing library, written in C++ and Python
+  homepage: http://github.com/point72/csp
+  repository: https://github.com/point72/csp
+
+extra:
+  recipe-maintainers:
+    - arhamchopra
+    - ptomecek
+    - alexddobkin
+    - robambalu
+    - AdamGlustein
+    - timkpaine
