@@ -52,21 +52,18 @@ build:
     - if: not win
       then: export CSP_USE_VCPKG=0
     - if: not win
-      then: ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+      then: $PYTHON -m pip install . -vv --no-deps --no-build-isolation
     - if: win
       then: set CSP_GENERATOR=Visual Studio 17 2022
     - if: win
       then: set CSP_USE_VCPKG=0
     - if: win
-      then: ${{ PYTHON }} setup.py build_ext install --single-version-externally-managed  --record=record.txt
+      then: "%PYTHON% setup.py build_ext install --single-version-externally-managed  --record=record.txt"
     # Cleanup after, need to tweak pyproject
     - if: not win
       then: rm -rf $PREFIX/cpp $PREFIX/CMakeLists.txt $PREFIX/LICENSE $PREFIX/NOTICE $PREFIX/pyproject.toml $PREFIX/README.md $PREFIX/setup.py $PREFIX/vcpkg.json
   dynamic_linking:
-    rpaths:
-      - if: not win
-        then: ${{ SP_DIR }}/csp/lib
-  error_overlinking: ${{ true if win }}
+    overlinking_behavior: ${{ "ignore" if win else "error" }}
 
 requirements:
   build:
