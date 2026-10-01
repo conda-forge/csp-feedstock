@@ -2,7 +2,7 @@ schema_version: 1
 
 context:
   name: csp
-  version: "0.19.0"
+  version: "0.19.1"
 
 package:
   name: ${{ name|lower }}
@@ -10,7 +10,7 @@ package:
 
 source:
   url: https://files.pythonhosted.org/packages/source/${{ name [0] }}/${{ name }}/${{ name }}-${{ version }}.tar.gz
-  sha256: 5971d1dfe6290032c79610e0aec76ab5f71669f60a7a3a0e2ac7b4f9ab8b3f0b
+  sha256: 3ba69f959deb6a1672d0163e005423aecb56406043ba0bb8d6391e63e67612da
   patches:
     - if: build_platform != target_platform
       then: patches/0001-remove-autogen.patch
@@ -20,7 +20,7 @@ source:
 build:
   # conda-build fails to find .pyd files co-located next to each other whereas the windows
   # DLL loader does.
-  number: 1
+  number: 0
   skip: match(python, ">3.14")
   script:
     # We can't cross-compile on csp due to https://github.com/Point72/csp/issues/264
