@@ -20,7 +20,7 @@ source:
 build:
   # conda-build fails to find .pyd files co-located next to each other whereas the windows
   # DLL loader does.
-  number: 1
+  number: 2
   skip: match(python, ">3.14")
   script:
     # We can't cross-compile on csp due to https://github.com/Point72/csp/issues/264

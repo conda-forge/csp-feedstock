@@ -1,3 +1,5 @@
+DOCKER_PLATFORM:
+- linux/amd64
 brotli:
 - '1.2'
 c_compiler:
@@ -23,7 +25,7 @@ libarrow:
 libboost_headers:
 - '1.90'
 librdkafka:
-- '2.15'
+- '2.16'
 lz4_c:
 - '1.10'
 numpy:
