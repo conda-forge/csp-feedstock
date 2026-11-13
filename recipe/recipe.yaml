@@ -17,6 +17,8 @@ source:
     - patches/0002-local-csp.patch
     # Allow Arrow 26 in both build and runtime Python metadata.
     - patches/0003-allow-pyarrow-26.patch
+    # Backport the Arrow reader API update and pandas 3.1 compatibility from CSP #781.
+    - patches/0004-arrow26-pandas31.patch
 
 build:
   # conda-build fails to find .pyd files co-located next to each other whereas the windows
