@@ -1,7 +1,5 @@
-MACOSX_DEPLOYMENT_TARGET:
-- '11.0'
 MACOSX_SDK_VERSION:
-- '11.0'
+- '11'
 brotli:
 - '1.2'
 c_compiler:
@@ -11,7 +9,7 @@ c_compiler_version:
 c_stdlib:
 - macosx_deployment_target
 c_stdlib_version:
-- '11.0'
+- '11'
 channel_sources:
 - conda-forge
 channel_targets:
@@ -21,15 +19,15 @@ cxx_compiler:
 cxx_compiler_version:
 - '21'
 libarrow:
-- '22.0'
+- '26.0'
 libboost_headers:
 - '1.90'
 librdkafka:
 - '2.15'
 lz4_c:
-- '1.10'
+- '1.11'
 macos_machine:
-- arm64-apple-darwin20.0.0
+- x86_64-apple-darwin13.4.0
 numpy:
 - '2'
 openssl:
@@ -39,9 +37,9 @@ pin_run_as_build:
     min_pin: x.x
     max_pin: x.x
 python:
-- 3.12.* *_cpython
+- 3.11.* *_cpython
 target_platform:
-- osx-arm64
+- osx-64
 zip_keys:
 - - c_compiler_version
   - cxx_compiler_version
