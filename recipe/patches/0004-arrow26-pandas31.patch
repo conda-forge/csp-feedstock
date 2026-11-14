@@ -1,0 +1,142 @@
+Upstream: https://github.com/Point72/csp/pull/781
+Source commit: e98547419a7435b6aa103ce856f2fd1ae71f44b5
+
+The PyArrow metadata change is already applied by 0003-allow-pyarrow-26.patch.
+Development environment YAML files are not part of the PyPI source archive.
+
+diff --git a/cpp/csp/python/adapters/parquetadapterimpl.cpp b/cpp/csp/python/adapters/parquetadapterimpl.cpp
+--- a/cpp/csp/python/adapters/parquetadapterimpl.cpp
++++ b/cpp/csp/python/adapters/parquetadapterimpl.cpp
+@@ -22,6 +22,7 @@
+ #include <csp/python/adapters/ArrowNumpyListWriter.h>
+ #include <arrow/c/abi.h>
+ #include <arrow/c/bridge.h>
++#include <arrow/config.h>
+ #include <arrow/io/file.h>
+ #include <arrow/util/future.h>
+ #include <arrow/util/thread_pool.h>
+@@ -420,13 +421,22 @@ class NativeParquetStreamSource : public csp::adapters::parquet::RecordBatchStre
+         arrowProps.set_use_threads( true );
+         arrowProps.set_pre_buffer( true );
+ 
++#if ARROW_VERSION_MAJOR >= 23
++        auto readerResult = ::parquet::arrow::FileReader::Make(
++            ::arrow::default_memory_pool(), std::move( parquetReader ), arrowProps );
++        if( !readerResult.ok() )
++            CSP_THROW( csp::ValueError, "Failed to create Arrow FileReader for " << path << ": " << readerResult.status().ToString() );
++
++        return std::move( readerResult ).ValueUnsafe();
++#else
+         std::unique_ptr<::parquet::arrow::FileReader> fileReader;
+         auto status = ::parquet::arrow::FileReader::Make(
+             ::arrow::default_memory_pool(), std::move( parquetReader ), arrowProps, &fileReader );
+         if( !status.ok() )
+             CSP_THROW( csp::ValueError, "Failed to create Arrow FileReader for " << path << ": " << status.ToString() );
+ 
+         return fileReader;
++#endif
+     }
+ 
+     // Compute the projected Arrow schema from parquet file metadata alone (no I/O).
+diff --git a/csp/impl/pandas_ext_type.py b/csp/impl/pandas_ext_type.py
+--- a/csp/impl/pandas_ext_type.py
++++ b/csp/impl/pandas_ext_type.py
+@@ -455,23 +455,28 @@ def _reduce(self, name, skipna=True, keepdims: bool = False, **kwds):
+         ----------
+         name : str
+             Name of the function, supported values are:
+-            { any, all, min, max, sum, mean, median, prod,
++            { count, any, all, min, max, sum, mean, median, prod,
+             std, var, sem, kurt, skew }.
+         skipna : bool, default True
+             If True, skip NaN values (both missing Edges and nan's inside of Edges)
+         keepdims : bool, default False
+-            If True, return a TsArray with shape (1,) instead of a scalar, keeping the dimensions.
++            If True, return an array with shape (1,) instead of a scalar, keeping the dimensions.
++            Count returns a NumPy array; other reductions return a TsArray.
+             Used by DataFrame reductions. Required argument as of pandas 3.0: https://github.com/pandas-dev/pandas/pull/52788.
+         **kwargs
+             Additional keyword arguments passed to the reduction function.
+             Currently, `ddof` is the only supported kwarg.
+         Returns
+         -------
+-        scalar or TsArray
++        scalar, TsArray, or ndarray
+         Raises
+         ------
+         TypeError : subclass does not define reductions
+         """
++        if name == "count":
++            result = (~self.isna()).sum()
++            return np.array([result]) if keepdims else result
++
+         import pandas.core.nanops as nanops
+ 
+         functions = {
+@@ -517,6 +522,24 @@ def _reduce(self, name, skipna=True, keepdims: bool = False, **kwds):
+ 
+         return result
+ 
++    @classmethod
++    def _create_arithmetic_method(cls, op):
++        method = super()._create_arithmetic_method(op)
++        if op.__name__ not in ("truediv", "rtruediv"):
++            return method
++
++        def _binop(self, other):
++            result = method(self, other)
++            if result is not NotImplemented and len(self) == 0 and self.dtype.subtype in (int, float):
++                # Pandas 3 casts to the input dtype, so float edges from integer
++                # division fall back to object. Earlier versions infer ts[float].
++                if self.dtype.subtype is int and hasattr(self, "_cast_pointwise_result"):
++                    return np.empty(0, dtype=object)
++                return cls([], dtype=TsDtype(float))
++            return result
++
++        return _binop
++
+     @classmethod
+     def _create_comparison_method(cls, op):
+         # Override from base class to make sure result dtype is correct
+diff --git a/csp/tests/impl/test_pandas_ext_type.py b/csp/tests/impl/test_pandas_ext_type.py
+--- a/csp/tests/impl/test_pandas_ext_type.py
++++ b/csp/tests/impl/test_pandas_ext_type.py
+@@ -489,6 +489,17 @@ def test_error(self, data, all_arithmetic_operators):
+         """This is supposed to be overridden when things work. See https://github.com/pandas-dev/pandas/pull/39386"""
+         pass
+ 
++    @pytest.mark.parametrize("subtype", [int, float])
++    @pytest.mark.parametrize("op_name", ["__truediv__", "__rtruediv__"])
++    def test_true_division_dtype(self, subtype, op_name):
++        data = TsArray([csp.const(subtype(1)), csp.const(subtype(2))], dtype=TsDtype(subtype))
++        divisor = csp.const(subtype(2))
++        result = getattr(data, op_name)(divisor)
++        empty_result = getattr(data[:0], op_name)(divisor)
++
++        assert empty_result.dtype == result.dtype
++        assert len(empty_result) == 0
++
+ 
+ class TestComparisonOps(base.BaseComparisonOpsTests):
+     # The pandas test is incorrectly written in old versions, but fixed with this pull request:
+@@ -567,5 +578,20 @@ def check_reduce(self, s, op_name, skipna=None):
+ 
+ 
+ class TestReduce(base.BaseReduceTests):
++    @pytest.mark.parametrize("values, expected", [([], 0), ([None, None], 0), ([1, 2], 2), ([1, None], 1)])
++    @pytest.mark.parametrize("skipna", [True, False])
++    @pytest.mark.parametrize("keepdims", [True, False])
++    def test_count_reduction(self, values, expected, skipna, keepdims):
++        data = TsArray([csp.const(value) if value is not None else np.nan for value in values], dtype=TsDtype(int))
++        result = data._reduce("count", skipna=skipna, keepdims=keepdims)
++
++        if keepdims:
++            np.testing.assert_array_equal(result, np.array([expected], dtype=np.int64))
++            assert result.dtype == np.dtype(np.int64)
++        else:
++            assert isinstance(result, (int, np.integer))
++            assert result == expected
++        assert pd.Series(data).count() == expected
++
+     def _supports_reduction(self, series, op_name):
+         return True  # we support all reduce operations
